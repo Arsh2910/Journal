@@ -70,4 +70,20 @@ async function loginUser(req, res) {
     console.log("failed", error);
   }
 }
+
+async function logoutUser(req, res) {
+  const token = req.cookies.token;
+  try {
+    if (!token) {
+      return res.status(400).json({ message: "No token found" });
+    }
+    await tokenBlacklistModel.create({ token });
+    res.clearCookie("token");
+    return res.status(200).json({ message: "User logged out successfully" });
+  } catch (err) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+}
 module.exports = { registerUser, loginUser };
