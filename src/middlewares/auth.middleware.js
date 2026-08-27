@@ -19,4 +19,4 @@ async function authUser(req, res, next) {
     next(err);
   }
 }
-module.exports = authUser;
+module.exports = { authUser };

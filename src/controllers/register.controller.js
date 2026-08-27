@@ -60,6 +60,7 @@ async function loginUser(req, res) {
       process.env.JWT_SECRET,
       { expiresIn: "7d" },
     );
+    res.cookie("token", token);
     res.status(200).json({
       message: "User Logged in Successfully",
       id: user._id,
