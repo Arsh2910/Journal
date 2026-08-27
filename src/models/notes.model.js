@@ -8,6 +8,12 @@ const noteSchema = new mongoose.Schema(
       required: true,
     },
 
+    challenge: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Challenge",
+      required: true,
+    },
+
     date: {
       type: Date,
       required: true,

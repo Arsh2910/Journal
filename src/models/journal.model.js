@@ -26,6 +26,11 @@ const journalSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  challenge: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Challenge",
+    required: true,
+  },
 });
 
 const journalModel = mongoose.model("journal", journalSchema);
