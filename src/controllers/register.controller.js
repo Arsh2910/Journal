@@ -2,7 +2,7 @@ const userModel = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
-async function registerUser(req, res) {
+async function registerUser(req, res, next) {
   try {
     const { userName, email, password } = req.body;
     const UserAlreadyExist = await userModel.findOne({
@@ -34,23 +34,23 @@ async function registerUser(req, res) {
       email: user.email,
     });
   } catch (error) {
-    console.log("creation failed", error);
+    next(error);
   }
 }
 
-async function loginUser(req, res) {
+async function loginUser(req, res, next) {
   const { userName, email, password } = req.body;
   try {
     const user = await userModel.findOne({
       $or: [{ userName }, { email }],
     });
     if (!user) {
-      return res.status(404).json({ message: "USER DOES NOT EXISTS" });
+      throw new AppError("User does not exist", 404);
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(404).json({ message: "INVALID PASSWORD" });
+      throw new AppError("Invalid password", 404);
     }
 
     const token = jwt.sign(
@@ -68,23 +68,21 @@ async function loginUser(req, res) {
       email: user.email,
     });
   } catch (error) {
-    console.log("failed", error);
+    next(error);
   }
 }
 
-async function logoutUser(req, res) {
+async function logoutUser(req, res, next) {
   const token = req.cookies.token;
   try {
     if (!token) {
-      return res.status(400).json({ message: "No token found" });
+      throw new AppError("No token found", 400);
     }
     await tokenBlacklistModel.create({ token });
     res.clearCookie("token");
     return res.status(200).json({ message: "User logged out successfully" });
   } catch (err) {
-    return res
-      .status(500)
-      .json({ message: "Internal server error", error: err.message });
+    next(err);
   }
 }
 module.exports = { registerUser, loginUser };
