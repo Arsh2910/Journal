@@ -1,0 +1,308 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   NOCTURNAL ARCHIVIST — GLOBAL DESIGN SYSTEM
+   ============================================================ */
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-on-surface font-serif antialiased;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #151311;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #434840;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #8d9388;
+  }
+}
+
+@layer components {
+  /* ---- PAPER TEXTURES ---- */
+  .paper-texture {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+
+  .desk-texture {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  /* ---- NOTEBOOK RULED LINES ---- */
+  .ruled-lines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent calc(1.6rem - 1px),
+      rgba(141, 147, 136, 0.12) calc(1.6rem - 1px),
+      rgba(141, 147, 136, 0.12) 1.6rem
+    );
+    background-size: 100% 1.6rem;
+    background-attachment: local;
+  }
+
+  .ruled-lines-page {
+    background-image: 
+      linear-gradient(to right, rgba(171, 209, 161, 0.15) 0, rgba(171, 209, 161, 0.15) 2px, transparent 2px),
+      repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent calc(1.6rem - 1px),
+        rgba(141, 147, 136, 0.1) calc(1.6rem - 1px),
+        rgba(141, 147, 136, 0.1) 1.6rem
+      );
+    background-size: 100% 100%, 100% 1.6rem;
+    padding-left: 2.5rem;
+  }
+
+  /* ---- JOURNAL PAPER CARD ---- */
+  .journal-paper {
+    @apply bg-surface-container-low paper-texture;
+    box-shadow: 
+      0 4px 24px rgba(0,0,0,0.5),
+      0 1px 4px rgba(0,0,0,0.3),
+      inset 0 0 0 1px rgba(67,72,64,0.3);
+    border-left: 8px solid #211f1d;
+  }
+
+  .journal-paper-active {
+    @apply bg-surface-container paper-texture;
+    box-shadow: 
+      0 8px 40px rgba(0,0,0,0.6),
+      0 2px 8px rgba(0,0,0,0.4),
+      inset 0 0 0 1px rgba(67,72,64,0.4);
+    border-left: 8px solid #2c2927;
+  }
+
+  /* ---- EMBOSSED BUTTON (ink stamp style) ---- */
+  .btn-embossed {
+    @apply border border-secondary text-secondary-fixed-dim font-sans text-label-md uppercase tracking-widest px-8 py-3 transition-all duration-300;
+    background: transparent;
+    box-shadow: 
+      inset 1px 1px 2px rgba(255,255,255,0.08),
+      inset -1px -1px 2px rgba(0,0,0,0.3),
+      2px 2px 5px rgba(0,0,0,0.4);
+  }
+  .btn-embossed:hover {
+    @apply bg-secondary text-background;
+  }
+  .btn-embossed:active {
+    box-shadow: 
+      inset 1px 1px 3px rgba(0,0,0,0.5),
+      0 1px 2px rgba(0,0,0,0.2);
+  }
+
+  .btn-primary {
+    @apply bg-primary-container text-on-primary font-sans text-label-md uppercase tracking-widest px-8 py-3 transition-all duration-300 border border-primary-container;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+  }
+  .btn-primary:hover {
+    @apply bg-primary text-on-primary;
+  }
+
+  .btn-ghost {
+    @apply border border-outline text-on-surface-variant font-sans text-label-md uppercase tracking-widest px-6 py-2 transition-all duration-300;
+    background: transparent;
+  }
+  .btn-ghost:hover {
+    @apply border-secondary text-secondary;
+  }
+
+  .btn-danger {
+    @apply border border-error-container text-error font-sans text-label-sm uppercase tracking-widest px-4 py-1.5 transition-all duration-200;
+    background: transparent;
+  }
+  .btn-danger:hover {
+    @apply bg-error-container text-on-error-container;
+  }
+
+  /* ---- STAMP LABEL ---- */
+  .stamp-label {
+    @apply font-sans text-label-sm uppercase tracking-widest text-on-surface-variant;
+  }
+
+  /* ---- STICKY NOTE ---- */
+  .sticky-note {
+    background-color: #3a2e1a;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E");
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.4), 1px 1px 3px rgba(0,0,0,0.3);
+    transform: rotate(-1deg);
+    border-top: 4px solid rgba(220, 196, 151, 0.2);
+  }
+  .sticky-note:hover {
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+  }
+
+  /* ---- CHECKBOX ink stamp ---- */
+  .checkbox-ink {
+    @apply w-4 h-4 border border-outline flex items-center justify-center flex-shrink-0 transition-all duration-200 cursor-pointer;
+    background: transparent;
+  }
+  .checkbox-ink.checked {
+    @apply border-primary bg-primary-container;
+  }
+  .checkbox-ink.checked::after {
+    content: '✕';
+    font-size: 10px;
+    color: #abd1a1;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  /* ---- PROGRESS TALLY ---- */
+  .tally-bar {
+    @apply w-1.5 transition-all duration-500;
+    background-color: #434840;
+  }
+  .tally-bar.documented {
+    background-color: #769a6e;
+  }
+  .tally-bar.current {
+    background-color: #abd1a1;
+    box-shadow: 0 0 6px rgba(171, 209, 161, 0.4);
+  }
+
+  /* ---- CONTRIBUTION GRID CELL ---- */
+  .grid-cell {
+    @apply w-4 h-4 border border-outline-variant/20 transition-all duration-300;
+    background-color: #1d1b19;
+  }
+  .grid-cell.documented {
+    background-color: #45673f;
+    animation: ink-bleed 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+  .grid-cell.today {
+    background-color: #abd1a1;
+    box-shadow: 0 0 8px rgba(171, 209, 161, 0.5);
+  }
+  .grid-cell.future {
+    background-color: #151311;
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* ---- MOOD CHIP ---- */
+  .mood-chip {
+    @apply font-sans text-label-sm uppercase tracking-widest px-3 py-1 border border-outline-variant transition-all duration-200 cursor-pointer;
+    background: transparent;
+    color: #8d9388;
+  }
+  .mood-chip:hover {
+    @apply border-outline text-on-surface-variant;
+  }
+  .mood-chip.selected {
+    @apply border-tertiary text-tertiary;
+    background: rgba(220, 196, 151, 0.08);
+  }
+
+  /* ---- INPUT FIELD (ruled line style) ---- */
+  .ink-input {
+    @apply w-full bg-transparent border-b border-outline-variant text-on-surface font-serif text-body-md outline-none py-1 transition-colors duration-200 placeholder-on-surface-variant/40;
+  }
+  .ink-input:focus {
+    @apply border-b-secondary;
+  }
+
+  .ink-textarea {
+    @apply w-full bg-transparent border-none text-on-surface font-serif text-body-md outline-none resize-none placeholder-on-surface-variant/40 leading-[1.6rem];
+  }
+
+  /* ---- PAGE NUMBER ---- */
+  .page-number {
+    @apply font-sans text-label-sm text-outline uppercase tracking-widest;
+  }
+
+  /* ---- NAV LINK ---- */
+  .nav-link {
+    @apply font-sans text-label-md uppercase tracking-widest text-on-surface-variant transition-colors duration-200;
+  }
+  .nav-link:hover {
+    @apply text-secondary;
+  }
+  .nav-link.active {
+    @apply text-secondary border-b border-secondary pb-px;
+  }
+
+  /* ---- LOADING STATE ---- */
+  .turning-page {
+    @apply font-serif italic text-on-surface-variant text-body-md;
+    animation: fade-in 0.5s ease-out;
+  }
+
+  /* ---- ARCHIVE ENTRY ---- */
+  .archive-entry {
+    @apply border-b border-outline-variant/30 py-4 flex items-start gap-6 transition-all duration-200 cursor-pointer;
+  }
+  .archive-entry:hover {
+    @apply border-outline-variant/60 bg-surface-container-low/50 px-3 -mx-3;
+  }
+
+  /* ---- DAY STAT CARD ---- */
+  .stat-card {
+    @apply bg-surface-container-low border border-outline-variant/30 p-6 paper-texture;
+  }
+}
+
+@layer utilities {
+  .font-serif { font-family: 'Playfair Display', Georgia, serif; }
+  .font-sans  { font-family: 'Inter', system-ui, sans-serif; }
+  
+  /* Page turn animation for journal navigation */
+  .animate-page-in-right {
+    animation: pageInRight 0.4s ease-out;
+  }
+  .animate-page-in-left {
+    animation: pageInLeft 0.4s ease-out;
+  }
+}
+
+@keyframes ink-bleed {
+  0%   { transform: scale(0.6); opacity: 0; }
+  60%  { transform: scale(1.1); opacity: 0.8; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes pageInRight {
+  0%   { opacity: 0; transform: translateX(32px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pageInLeft {
+  0%   { opacity: 0; transform: translateX(-32px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes settle {
+  0%   { transform: rotate(-1deg) translateY(-6px); opacity: 0; }
+  100% { transform: rotate(-1deg) translateY(0); opacity: 1; }
+}
+
+@keyframes fade-in {
+  0%   { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
