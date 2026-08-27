@@ -6,6 +6,7 @@ const {
   calculateCurrentDay,
   validateToday,
 } = require("../services/challenge.service");
+
 async function createJournal(req, res, next) {
   try {
     const { title, content, date, mood } = req.body;
@@ -16,25 +17,22 @@ async function createJournal(req, res, next) {
       throw new AppError("No active challenge found", 404);
     }
 
-    const currentDay = calculateCurrentDay(challenge.startDate);
-
-    if (currentDay > challenge.duration) {
-      challenge.status = "completed";
-      await challenge.save();
-
-      throw new AppError("Challenge has been completed", 403);
-    }
-
     const allowed = validateToday(challenge, date);
 
     if (!allowed) {
       throw new AppError("You can only create today's journal page", 403);
     }
 
+    const dayNumber = calculateCurrentDay(challenge.startDate);
+
+    if (dayNumber > challenge.duration) {
+      throw new AppError("Challenge is completed", 403);
+    }
+
     const existingJournal = await journalModel.findOne({
       user: req.user.id,
       challenge: challenge._id,
-      date,
+      dayNumber,
     });
 
     if (existingJournal) {
@@ -48,7 +46,7 @@ async function createJournal(req, res, next) {
       content,
       date,
       mood,
-      dayNumber: currentDay,
+      dayNumber,
     });
 
     res.status(201).json({
@@ -63,11 +61,11 @@ async function createJournal(req, res, next) {
 
 async function getJournals(req, res, next) {
   try {
-    const userId = req.user.id;
-
-    const journals = await journalModel.find({
-      user: userId,
-    });
+    const journals = await journalModel
+      .find({
+        user: req.user.id,
+      })
+      .sort({ dayNumber: 1 });
 
     res.status(200).json({
       success: true,
@@ -81,12 +79,9 @@ async function getJournals(req, res, next) {
 
 async function getJournalById(req, res, next) {
   try {
-    const userId = req.user.id;
-    const journalId = req.params.id;
-
     const journal = await journalModel.findOne({
-      _id: journalId,
-      user: userId,
+      _id: req.params.id,
+      user: req.user.id,
     });
 
     if (!journal) {
@@ -95,7 +90,6 @@ async function getJournalById(req, res, next) {
 
     res.status(200).json({
       success: true,
-      message: "Journal retrieved successfully",
       journal,
     });
   } catch (error) {
@@ -105,36 +99,32 @@ async function getJournalById(req, res, next) {
 
 async function updateJournal(req, res, next) {
   try {
-    const userId = req.user.id;
-    const journalId = req.params.id;
-
     const { title, content, mood } = req.body;
 
-    const challenge = await getActiveChallenge(userId);
-
-    if (!challenge) {
-      throw new AppError("No active challenge found", 404);
-    }
-
     const journal = await journalModel.findOne({
-      _id: journalId,
-      user: userId,
-      challenge: challenge._id,
+      _id: req.params.id,
+      user: req.user.id,
     });
 
     if (!journal) {
       throw new AppError("Journal does not exist", 404);
     }
 
-    const allowed = validateToday(challenge, journal.date);
+    const today = new Date();
 
-    if (!allowed) {
-      throw new AppError("You can only modify today's journal", 403);
+    today.setHours(0, 0, 0, 0);
+
+    const journalDate = new Date(journal.date);
+
+    journalDate.setHours(0, 0, 0, 0);
+
+    if (journalDate.getTime() !== today.getTime()) {
+      throw new AppError("Only today's journal can be edited", 403);
     }
 
-    journal.title = title;
-    journal.content = content;
-    journal.mood = mood;
+    journal.title = title ?? journal.title;
+    journal.content = content ?? journal.content;
+    journal.mood = mood ?? journal.mood;
 
     await journal.save();
 
@@ -150,29 +140,25 @@ async function updateJournal(req, res, next) {
 
 async function deleteJournal(req, res, next) {
   try {
-    const userId = req.user.id;
-    const journalId = req.params.id;
-
-    const challenge = await getActiveChallenge(userId);
-
-    if (!challenge) {
-      throw new AppError("No active challenge found", 404);
-    }
-
     const journal = await journalModel.findOne({
-      _id: journalId,
-      user: userId,
-      challenge: challenge._id,
+      _id: req.params.id,
+      user: req.user.id,
     });
 
     if (!journal) {
       throw new AppError("Journal does not exist", 404);
     }
 
-    const allowed = validateToday(challenge, journal.date);
+    const today = new Date();
 
-    if (!allowed) {
-      throw new AppError("You can only delete today's journal", 403);
+    today.setHours(0, 0, 0, 0);
+
+    const journalDate = new Date(journal.date);
+
+    journalDate.setHours(0, 0, 0, 0);
+
+    if (journalDate.getTime() !== today.getTime()) {
+      throw new AppError("Only today's journal can be deleted", 403);
     }
 
     await journal.deleteOne();

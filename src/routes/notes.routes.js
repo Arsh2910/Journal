@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {
   createNote,
-  getNotes,
+  getTodayNotes,
   updateNote,
   deleteNote,
 } = require("../controllers/notes.controller");
@@ -12,7 +12,7 @@ const {
 const { authUser } = require("../middlewares/auth.middleware");
 
 router.post("/create", authUser, createNote);
-router.get("/:date", authUser, getNotes);
+router.get("/today", authUser, getTodayNotes);
 router.patch("/:id", authUser, updateNote);
 router.delete("/:id", authUser, deleteNote);
 

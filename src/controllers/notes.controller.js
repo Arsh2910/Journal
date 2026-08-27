@@ -1,18 +1,17 @@
-const noteModel = require("../models/notes.model");
+const mongoose = require("mongoose");
+
+const notesModel = require("../models/notes.model");
 const AppError = require("../utils/appError");
 
 const {
   getActiveChallenge,
-  validateToday,
+  calculateCurrentDay,
+  normalizeDate,
 } = require("../services/challenge.service");
 
 async function createNote(req, res, next) {
   try {
     const { title, date } = req.body;
-
-    if (!title || !date) {
-      throw new AppError("Title and date are required", 400);
-    }
 
     const challenge = await getActiveChallenge(req.user.id);
 
@@ -20,13 +19,21 @@ async function createNote(req, res, next) {
       throw new AppError("No active challenge found", 404);
     }
 
-    const allowed = validateToday(challenge, date);
+    const requestedDate = normalizeDate(date);
 
-    if (!allowed) {
-      throw new AppError("You can only create notes for today", 403);
+    const today = normalizeDate(new Date());
+
+    if (requestedDate.getTime() !== today.getTime()) {
+      throw new AppError("You can only create today's notes", 403);
     }
 
-    const note = await noteModel.create({
+    const currentDay = calculateCurrentDay(challenge.startDate);
+
+    if (currentDay > challenge.duration) {
+      throw new AppError("Challenge is completed", 403);
+    }
+
+    const note = await notesModel.create({
       user: req.user.id,
       challenge: challenge._id,
       title,
@@ -43,27 +50,23 @@ async function createNote(req, res, next) {
   }
 }
 
-async function getNotes(req, res, next) {
+async function getTodayNotes(req, res, next) {
   try {
-    const { date } = req.params;
-
     const challenge = await getActiveChallenge(req.user.id);
 
     if (!challenge) {
       throw new AppError("No active challenge found", 404);
     }
 
-    const allowed = validateToday(challenge, date);
+    const today = normalizeDate(new Date());
 
-    if (!allowed) {
-      throw new AppError("You can only access today's notes", 403);
-    }
-
-    const notes = await noteModel.find({
-      user: req.user.id,
-      challenge: challenge._id,
-      date,
-    });
+    const notes = await notesModel
+      .find({
+        user: req.user.id,
+        challenge: challenge._id,
+        date: today,
+      })
+      .sort({ createdAt: 1 });
 
     res.status(200).json({
       success: true,
@@ -77,29 +80,36 @@ async function getNotes(req, res, next) {
 async function updateNote(req, res, next) {
   try {
     const { id } = req.params;
-    const { completed } = req.body;
+    const { title, completed } = req.body;
 
-    const challenge = await getActiveChallenge(req.user.id);
-
-    if (!challenge) {
-      throw new AppError("No active challenge found", 404);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new AppError("Invalid note ID", 400);
     }
 
-    const note = await noteModel.findOne({
+    const note = await notesModel.findOne({
       _id: id,
       user: req.user.id,
-      challenge: challenge._id,
     });
 
     if (!note) {
-      throw new AppError("Note not found", 404);
+      throw new AppError("Note does not exist", 404);
     }
 
-    if (!validateToday(challenge, note.date)) {
-      throw new AppError("You can only modify today's notes", 403);
+    const today = normalizeDate(new Date());
+
+    const noteDate = normalizeDate(note.date);
+
+    if (noteDate.getTime() !== today.getTime()) {
+      throw new AppError("Only today's notes can be edited", 403);
     }
 
-    note.completed = completed;
+    if (title !== undefined) {
+      note.title = title;
+    }
+
+    if (completed !== undefined) {
+      note.completed = completed;
+    }
 
     await note.save();
 
@@ -117,24 +127,25 @@ async function deleteNote(req, res, next) {
   try {
     const { id } = req.params;
 
-    const challenge = await getActiveChallenge(req.user.id);
-
-    if (!challenge) {
-      throw new AppError("No active challenge found", 404);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new AppError("Invalid note ID", 400);
     }
 
-    const note = await noteModel.findOne({
+    const note = await notesModel.findOne({
       _id: id,
       user: req.user.id,
-      challenge: challenge._id,
     });
 
     if (!note) {
-      throw new AppError("Note not found", 404);
+      throw new AppError("Note does not exist", 404);
     }
 
-    if (!validateToday(challenge, note.date)) {
-      throw new AppError("You can only delete today's notes", 403);
+    const today = normalizeDate(new Date());
+
+    const noteDate = normalizeDate(note.date);
+
+    if (noteDate.getTime() !== today.getTime()) {
+      throw new AppError("Only today's notes can be deleted", 403);
     }
 
     await note.deleteOne();
@@ -150,7 +161,7 @@ async function deleteNote(req, res, next) {
 
 module.exports = {
   createNote,
-  getNotes,
+  getTodayNotes,
   updateNote,
   deleteNote,
 };
