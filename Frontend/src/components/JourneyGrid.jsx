@@ -1,9 +1,6 @@
-// JourneyGrid — GitHub-style contribution grid showing all challenge days
 import { useNavigate } from "react-router-dom";
 
-const WEEKS_PER_ROW = 17; // days per row chunk for visual grouping
-
-export default function JourneyGrid({ days = [], currentDay = 0, challenge }) {
+export default function JourneyGrid({ days = [], currentDay = 0 }) {
   const navigate = useNavigate();
 
   if (!days.length) return null;
@@ -13,65 +10,52 @@ export default function JourneyGrid({ days = [], currentDay = 0, challenge }) {
     navigate(`/journal/${day}`);
   };
 
-  const rows = [];
-  for (let i = 0; i < days.length; i += WEEKS_PER_ROW) {
-    rows.push(days.slice(i, i + WEEKS_PER_ROW));
-  }
-
   return (
-    <div className="space-y-1.5">
-      {rows.map((row, rowIdx) => (
-        <div key={rowIdx} className="flex gap-1">
-          {row.map(({ day, completed }) => {
-            const isCurrent = day === currentDay;
-            const isPast    = day < currentDay;
-            const isFuture  = day > currentDay;
-            const isClickable = !isFuture;
+    <div className="grid grid-cols-10 md:grid-cols-[repeat(20,minmax(0,1fr))] gap-1.5 w-full">
+      {days.map(({ day, completed }) => {
+        const isCurrent = day === currentDay;
+        const isPast    = day < currentDay;
+        const isFuture  = day > currentDay;
+        const isClickable = !isFuture;
 
-            let cellClass = "grid-cell";
-            if (completed)    cellClass += " documented";
-            else if (isCurrent) cellClass += " today";
-            else if (isFuture)  cellClass += " future";
+        let cellClass = "aspect-square w-full transition-all duration-300 relative group flex items-center justify-center ";
+        
+        if (isClickable) {
+          cellClass += "cursor-pointer ";
+        } else {
+          cellClass += "cursor-not-allowed ";
+        }
 
-            return (
-              <div
-                key={day}
-                className={`${cellClass} ${isClickable ? "cursor-pointer hover:ring-1 hover:ring-outline" : "cursor-not-allowed"}`}
-                title={
-                  isFuture
-                    ? `Day ${day} — locked`
-                    : completed
-                    ? `Day ${day} — documented ✓`
-                    : isCurrent
-                    ? `Day ${day} — today`
-                    : `Day ${day} — missed`
-                }
-                onClick={() => isClickable && handleClick(day, completed, isPast)}
-              />
-            );
-          })}
-        </div>
-      ))}
+        if (completed) {
+          // Documented: solid primary container block with slight organic opacity variation
+          const opacities = ['opacity-100', 'opacity-90', 'opacity-80'];
+          const opacity = opacities[day % opacities.length];
+          cellClass += `bg-primary-container ${opacity} hover:scale-110 hover:z-20 shadow-sm `;
+          if (isCurrent) cellClass += "ring-2 ring-primary ring-offset-2 ring-offset-[#2b2622] ";
+        } else if (isPast) {
+          // Missed: outlined empty box
+          cellClass += "border border-outline hover:border-primary hover:bg-primary-container/10 ";
+        } else if (isCurrent) {
+          // Today (not completed yet): dashed outline
+          cellClass += "border-2 border-primary border-dashed hover:bg-primary-container/10 ";
+        } else {
+          // Future: faded out outline
+          cellClass += "border border-outline/50 opacity-60 hover:border-outline hover:opacity-100 ";
+        }
 
-      {/* Legend */}
-      <div className="flex items-center gap-6 pt-2">
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 border border-outline-variant/20" style={{ background: "#45673f" }} />
-          <span className="stamp-label">Documented</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 border border-outline-variant/20" style={{ background: "#abd1a1" }} />
-          <span className="stamp-label">Today</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 border border-outline-variant/20" style={{ background: "#1d1b19" }} />
-          <span className="stamp-label">Missed</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 border border-outline-variant/20 opacity-40" style={{ background: "#151311" }} />
-          <span className="stamp-label">Future</span>
-        </div>
-      </div>
+        return (
+          <div
+            key={day}
+            className={cellClass}
+            onClick={() => isClickable && handleClick(day, completed, isPast)}
+          >
+            {/* Tooltip hint */}
+            <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-surface-container-high border border-outline-variant px-3 py-1 text-on-surface font-sans text-label-sm opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-30 shadow-md">
+              Day {day} {completed ? "✓" : isFuture ? "🔒" : isCurrent ? "(Today)" : "✕"}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

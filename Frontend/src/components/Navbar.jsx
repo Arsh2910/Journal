@@ -64,27 +64,10 @@ export default function Navbar() {
             <NavLink to="/archive" className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
               Archive
             </NavLink>
-            {/* Profile link with avatar thumbnail */}
-            <NavLink to="/profile" className={({ isActive }) => `nav-link flex items-center gap-2 ${isActive ? "active" : ""}`}>
-              <span
-                className="w-6 h-6 overflow-hidden flex-shrink-0 inline-block"
-                style={{
-                  boxShadow: "inset 0 0 0 1px color-mix(in srgb, var(--color-outline-variant) 50%, transparent)",
-                }}
-              >
-                <img
-                  src={avatarSrc}
-                  alt=""
-                  className="w-full h-full object-cover"
-                  draggable={false}
-                />
-              </span>
-              Profile
-            </NavLink>
           </nav>
         )}
 
-        {/* Right controls: theme toggle + auth */}
+        {/* Right controls: theme toggle + profile + auth */}
         <div className="flex items-center gap-4">
           {/* Theme toggle — sun/moon */}
           <button
@@ -97,9 +80,28 @@ export default function Navbar() {
           </button>
 
           {user ? (
-            <button onClick={handleLogout} className="btn-ghost py-1.5 text-xs">
-              Close Journal
-            </button>
+            <>
+              {/* Profile link with avatar thumbnail */}
+              <NavLink to="/profile" className={({ isActive }) => `nav-link flex items-center gap-2 ${isActive ? "active" : ""}`}>
+                <span
+                  className="w-6 h-6 overflow-hidden flex-shrink-0 inline-block"
+                  style={{
+                    boxShadow: "inset 0 0 0 1px color-mix(in srgb, var(--color-outline-variant) 50%, transparent)",
+                  }}
+                >
+                  <img
+                    src={avatarSrc}
+                    alt=""
+                    className="w-full h-full object-cover"
+                    draggable={false}
+                  />
+                </span>
+                Profile
+              </NavLink>
+              <button onClick={handleLogout} className="btn-ghost py-1.5 text-xs">
+                Close Journal
+              </button>
+            </>
           ) : (
             <>
               <Link to="/login" className="nav-link">Sign In</Link>

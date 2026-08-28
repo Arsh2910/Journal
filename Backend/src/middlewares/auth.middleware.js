@@ -16,6 +16,9 @@ async function authUser(req, res, next) {
     req.user = decoded;
     next();
   } catch (err) {
+    if (err.name === "TokenExpiredError" || err.name === "JsonWebTokenError") {
+      return next(new AppError("Session expired, please log in again", 401));
+    }
     next(err);
   }
 }

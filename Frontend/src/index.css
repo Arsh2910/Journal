@@ -114,44 +114,44 @@
   --color-surface-container-high:    #d9d2c2;
   --color-surface-container-highest: #cec6b4;
   --color-surface-variant:           #d4cebe;
-  --color-on-surface:                #1a1714;
-  --color-on-surface-variant:        #4a4a42;
-  --color-inverse-surface:           #1a1714;
+  --color-on-surface:                #14110f;
+  --color-on-surface-variant:        #29251f;
+  --color-inverse-surface:           #14110f;
   --color-inverse-on-surface:        #f5f0e8;
-  --color-outline:                   #7a7a6e;
-  --color-outline-variant:           #c8c4b4;
-  --color-surface-tint:              #45673f;
+  --color-outline:                   #5a5a50;
+  --color-outline-variant:           #a39f90;
+  --color-surface-tint:              #2e472a;
 
-  /* Primary — Deep Forest (inverted from dark sage) */
-  --color-primary:                   #45673f;
+  /* Primary — Deep Forest */
+  --color-primary:                   #1e361b;
   --color-on-primary:                #ffffff;
   --color-primary-container:         #c7edbb;
-  --color-on-primary-container:      #11300f;
+  --color-on-primary-container:      #0a1c09;
   --color-inverse-primary:           #abd1a1;
   --color-primary-fixed:             #c7edbb;
   --color-primary-fixed-dim:         #abd1a1;
-  --color-on-primary-fixed:          #022103;
-  --color-on-primary-fixed-variant:  #2e4e29;
+  --color-on-primary-fixed:          #011401;
+  --color-on-primary-fixed-variant:  #1e361b;
 
-  /* Secondary — Charcoal Ink (inverted from cream) */
-  --color-secondary:                 #3d3830;
+  /* Secondary — Charcoal Ink */
+  --color-secondary:                 #1a1714;
   --color-on-secondary:              #f5f0e8;
   --color-secondary-container:       #eae2d2;
-  --color-on-secondary-container:    #2d2922;
-  --color-secondary-fixed:           #eae2d2;
-  --color-secondary-fixed-dim:       #3d3830;
+  --color-on-secondary-container:    #14110f;
+  --color-secondary-fixed:           #1e361b;
+  --color-secondary-fixed-dim:       #365134;
   --color-on-secondary-fixed:        #f5f0e8;
-  --color-on-secondary-fixed-variant: #6b6358;
+  --color-on-secondary-fixed-variant: #3d3830;
 
-  /* Tertiary — Dark Brass (inverted from bright brass) */
-  --color-tertiary:                  #6b5a2e;
+  /* Tertiary — Dark Brass */
+  --color-tertiary:                  #4d401e;
   --color-on-tertiary:               #ffffff;
   --color-tertiary-container:        #f9dfb1;
-  --color-on-tertiary-container:     #362808;
+  --color-on-tertiary-container:     #261a00;
   --color-tertiary-fixed:            #f9dfb1;
   --color-tertiary-fixed-dim:        #dcc497;
   --color-on-tertiary-fixed:         #261a00;
-  --color-on-tertiary-fixed-variant: #554422;
+  --color-on-tertiary-fixed-variant: #4d401e;
 
   /* Error */
   --color-error:                     #ba1a1a;
@@ -160,32 +160,32 @@
   --color-on-error-container:        #93000a;
 
   /* Shadows — soft warm daylight */
-  --shadow-paper:      0 2px 12px rgba(60,40,20,0.1), 0 1px 3px rgba(60,40,20,0.08);
-  --shadow-paper-lift: 0 6px 24px rgba(60,40,20,0.14), 0 2px 6px rgba(60,40,20,0.1);
-  --shadow-stamp:      inset 1px 1px 2px rgba(255,255,255,0.6), inset -1px -1px 2px rgba(60,40,20,0.1), 2px 2px 5px rgba(60,40,20,0.15);
-  --shadow-sticky:     3px 3px 10px rgba(60,40,20,0.18), 1px 1px 3px rgba(60,40,20,0.12);
+  --shadow-paper:      0 4px 16px rgba(40,25,10,0.15), 0 2px 4px rgba(40,25,10,0.1);
+  --shadow-paper-lift: 0 10px 32px rgba(40,25,10,0.18), 0 4px 10px rgba(40,25,10,0.12);
+  --shadow-stamp:      inset 1px 1px 2px rgba(255,255,255,0.7), inset -1px -1px 2px rgba(40,25,10,0.15), 2px 2px 6px rgba(40,25,10,0.2);
+  --shadow-sticky:     4px 6px 14px rgba(40,25,10,0.25), 1px 2px 4px rgba(40,25,10,0.15);
 
   /* Component-specific */
-  --journal-paper-border-left:        #e5dfd0;
-  --journal-paper-active-border-left: #d9d2c2;
-  --journal-paper-shadow:             0 2px 12px rgba(60,40,20,0.1), 0 1px 3px rgba(60,40,20,0.08), inset 0 0 0 1px rgba(200,196,180,0.5);
-  --journal-paper-active-shadow:      0 6px 24px rgba(60,40,20,0.14), 0 2px 6px rgba(60,40,20,0.1), inset 0 0 0 1px rgba(200,196,180,0.6);
+  --journal-paper-border-left:        #d9d2c2;
+  --journal-paper-active-border-left: #cec6b4;
+  --journal-paper-shadow:             0 4px 16px rgba(40,25,10,0.15), 0 2px 4px rgba(40,25,10,0.1), inset 0 0 0 1px rgba(180,175,160,0.6);
+  --journal-paper-active-shadow:      0 10px 32px rgba(40,25,10,0.18), 0 4px 10px rgba(40,25,10,0.12), inset 0 0 0 1px rgba(180,175,160,0.8);
   --sticky-note-bg:                   #fef3c7;
-  --sticky-note-top-border:           rgba(107, 90, 46, 0.25);
-  --grid-cell-bg:                     #ede8db;
+  --sticky-note-top-border:           rgba(77, 64, 30, 0.35);
+  --grid-cell-bg:                     #d9d2c2;
   --grid-cell-documented-bg:          #769a6e;
-  --grid-cell-today-bg:               #45673f;
-  --grid-cell-future-bg:              #f5f0e8;
+  --grid-cell-today-bg:               #1e361b;
+  --grid-cell-future-bg:              #e5dfd0;
   --tally-bar-bg:                     #c8c4b4;
   --tally-bar-documented-bg:          #769a6e;
-  --tally-bar-current-bg:             #45673f;
-  --ruled-line-color:                 rgba(122, 122, 110, 0.15);
-  --ruled-page-margin-color:          rgba(69, 103, 63, 0.18);
+  --tally-bar-current-bg:             #1e361b;
+  --ruled-line-color:                 rgba(90, 90, 80, 0.25);
+  --ruled-page-margin-color:          rgba(30, 54, 27, 0.3);
   --scrollbar-track:                  #f5f0e8;
-  --scrollbar-thumb:                  #c8c4b4;
-  --scrollbar-thumb-hover:            #7a7a6e;
-  --checkbox-checked-mark-color:      #45673f;
-  --mood-chip-color:                  #7a7a6e;
+  --scrollbar-thumb:                  #b0ac9a;
+  --scrollbar-thumb-hover:            #5a5a50;
+  --checkbox-checked-mark-color:      #1e361b;
+  --mood-chip-color:                  #4d401e;
 }
 
 /* ---- BASE LAYER ---- */
@@ -336,17 +336,22 @@
 
   /* ---- CHECKBOX ink stamp ---- */
   .checkbox-ink {
-    @apply w-4 h-4 border border-outline flex items-center justify-center flex-shrink-0 transition-all duration-200 cursor-pointer;
+    @apply w-5 h-5 border border-outline rounded-sm flex items-center justify-center flex-shrink-0 transition-all duration-200 cursor-pointer relative;
+    appearance: none;
     background: transparent;
   }
   .checkbox-ink.checked {
-    @apply border-primary bg-primary-container;
+    @apply border-outline-variant;
   }
   .checkbox-ink.checked::after {
-    content: '✕';
-    font-size: 10px;
+    content: '×';
+    position: absolute;
+    top: -8px;
+    left: 0px;
+    font-size: 1.8rem;
     color: var(--checkbox-checked-mark-color);
-    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    opacity: 0.9;
     line-height: 1;
   }
 

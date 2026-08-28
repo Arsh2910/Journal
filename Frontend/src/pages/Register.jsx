@@ -60,8 +60,6 @@ export default function Register() {
     setLoading(true);
     try {
       await register(form.userName, form.email, form.password);
-      // Backend doesn't set cookie on register — auto-login after
-      await login(form.userName, "", form.password);
       navigate("/create");
     } catch (err) {
       setError(err.message);

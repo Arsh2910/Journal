@@ -1,126 +1,114 @@
 import GoalItem from "../components/GoalItem";
 import { useNotes } from "../hooks/useNotes";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import LoadingState from "../components/LoadingState";
 
 export default function Goals() {
   const { notes, loading, completedCount, addNote, toggleNote, editNote, removeNote } = useNotes();
   const [newGoal, setNewGoal] = useState("");
-  const [adding, setAdding]   = useState(false);
+  const navigate = useNavigate();
 
-  const handleAdd = async () => {
+  const handleAdd = async (e) => {
+    e.preventDefault();
     if (!newGoal.trim()) return;
     try {
       await addNote(newGoal.trim());
       setNewGoal("");
-      setAdding(false);
     } catch (err) {
       console.error("Failed to add note:", err.message);
     }
   };
 
-  return (
-    <div className="min-h-screen bg-background desk-texture py-12 px-4">
-      <div className="max-w-2xl mx-auto space-y-10" style={{ animation: "fade-in 0.4s ease-out" }}>
-        {/* Header */}
-        <div className="space-y-3">
-          <p className="stamp-label text-primary">Today's Goals</p>
-          <h1 className="font-serif text-display-lg text-secondary-fixed" style={{ letterSpacing: "-0.02em" }}>
-            What Gets<br />
-            <span className="italic">Done Today</span>
-          </h1>
-          <div className="w-16 h-px bg-outline-variant/50" />
-        </div>
-
-        {/* Expanded sticky note */}
-        <div className="journal-paper-active p-8 space-y-6">
-          {/* Sticky note header */}
-          <div className="flex items-center justify-between pb-4 border-b border-outline-variant/30">
-            <div>
-              <p className="stamp-label text-tertiary">Today's Goals</p>
-              {notes.length > 0 && (
-                <p className="font-sans text-label-sm text-on-surface-variant mt-1">
-                  {completedCount} / {notes.length} completed
-                </p>
-              )}
-            </div>
-            {/* Tally marks */}
-            <div className="flex items-end gap-0.5">
-              {notes.map((n, i) => (
-                <div
-                  key={n._id}
-                  className={`w-1 transition-all duration-300 ${n.completed ? "bg-primary h-4" : "bg-outline-variant/40 h-3"} ${(i + 1) % 5 === 0 ? "h-5 w-0.5 -rotate-12 origin-bottom" : ""}`}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Goals list */}
-          {loading ? (
-            <p className="turning-page">Turning the page...</p>
-          ) : (
-            <div className="space-y-2">
-              {notes.map((note) => (
-                <GoalItem
-                  key={note._id}
-                  note={note}
-                  isToday={true}
-                  onToggle={toggleNote}
-                  onEdit={editNote}
-                  onDelete={removeNote}
-                />
-              ))}
-              {notes.length === 0 && !adding && (
-                <p className="font-serif italic text-on-surface-variant text-body-md opacity-60">
-                  No goals yet. Add one below.
-                </p>
-              )}
-            </div>
-          )}
-
-          {/* Add new goal */}
-          <div className="pt-4 border-t border-outline-variant/20">
-            {adding ? (
-              <div className="flex items-center gap-3">
-                <input
-                  autoFocus
-                  className="ink-input flex-1 text-body-md"
-                  placeholder="What do you want to accomplish today?"
-                  value={newGoal}
-                  onChange={(e) => setNewGoal(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter")  handleAdd();
-                    if (e.key === "Escape") { setAdding(false); setNewGoal(""); }
-                  }}
-                />
-                <button type="button" onClick={handleAdd} className="btn-primary py-1.5 px-4 text-sm">
-                  Add
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setAdding(false); setNewGoal(""); }}
-                  className="stamp-label text-outline hover:text-secondary"
-                >
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setAdding(true)}
-                className="flex items-center gap-2 text-on-surface-variant hover:text-tertiary transition-colors"
-              >
-                <span className="text-xl font-serif leading-none">+</span>
-                <span className="stamp-label">Add a goal</span>
-              </button>
-            )}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-6 pt-4 border-t border-outline-variant/20">
-          <Link to="/journal" className="nav-link text-xs">← Back to Journal</Link>
-        </div>
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <LoadingState message="Gathering your intentions..." />
       </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background text-on-background font-body-md flex flex-col overflow-x-hidden">
+      {/* Charcoal Desk Background Effect */}
+      <div className="absolute inset-0 z-[-1] pointer-events-none desk-texture" style={{
+        backgroundImage: "radial-gradient(circle at center, var(--color-surface-container-high) 0%, var(--color-surface-container-lowest) 100%)",
+        opacity: 0.5
+      }}></div>
+
+      <main className="flex-grow flex items-center justify-center p-4 md:p-page-margin relative z-0">
+        
+        {/* Sticky Note Container */}
+        <div className="relative w-full max-w-md transform rotate-[-2deg] transition-transform duration-500 hover:rotate-[-1deg] group">
+          <div className="bg-[#2b2622] shadow-[4px_8px_15px_rgba(0,0,0,0.4),-2px_4px_6px_rgba(0,0,0,0.2)] rounded p-8 sm:p-10 min-h-[400px] flex flex-col relative overflow-hidden texture-grain">
+            
+            {/* Ruled lines */}
+            <div className="absolute inset-0 pt-24 pointer-events-none" style={{
+              backgroundImage: "linear-gradient(transparent calc(1.6rem - 1px), #4a423a 1px)",
+              backgroundSize: "100% 1.6rem",
+              opacity: 0.4
+            }}></div>
+
+            {/* Curl Edge Effect */}
+            <div className="absolute bottom-0 right-0 w-[40px] h-[40px] z-10" style={{
+              background: "linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%)",
+              borderBottomRightRadius: "4px",
+              boxShadow: "-2px -2px 5px rgba(0,0,0,0.2)",
+              transform: "rotate(3deg)",
+              transformOrigin: "bottom right"
+            }}></div>
+
+            {/* Close / Return Button */}
+            <button onClick={() => navigate("/journal")} aria-label="Return to Journal" className="absolute top-6 right-6 text-on-surface-variant hover:text-primary transition-colors z-20">
+              <span className="text-2xl opacity-60 hover:opacity-100">✕</span>
+            </button>
+
+            {/* Header */}
+            <header className="mb-10 text-center relative z-10">
+              <h1 className="font-serif text-headline-lg text-secondary-fixed mb-1 border-b border-on-surface-variant/30 pb-3">Daily Intentions</h1>
+              {notes.length > 0 && (
+                <p className="font-sans text-label-sm text-on-surface-variant mt-2 uppercase tracking-widest opacity-80">
+                  {completedCount} / {notes.length} Executed
+                </p>
+              )}
+            </header>
+
+            {/* Checklist */}
+            <div className="flex-grow space-y-2 relative z-10">
+              {loading ? (
+                <p className="font-serif italic text-on-surface-variant text-center mt-10 opacity-60">Reading intentions...</p>
+              ) : (
+                <>
+                  {notes.map((note) => (
+                    <GoalItem
+                      key={note._id}
+                      note={note}
+                      isToday={true}
+                      onToggle={toggleNote}
+                      onEdit={editNote}
+                      onDelete={removeNote}
+                    />
+                  ))}
+                  
+                  {/* Quick Add Form inline */}
+                  <form onSubmit={handleAdd} className="mt-4 pt-2 group/form flex items-center gap-3">
+                    <span className="text-xl font-serif text-outline opacity-50">+</span>
+                    <input
+                      type="text"
+                      className="w-full bg-transparent border-0 border-b border-transparent focus:border-outline-variant focus:ring-0 font-serif text-body-md text-on-surface placeholder-on-surface-variant/40 py-1 outline-none transition-colors duration-300"
+                      placeholder="Add an intention..."
+                      value={newGoal}
+                      onChange={(e) => setNewGoal(e.target.value)}
+                    />
+                  </form>
+                </>
+              )}
+            </div>
+            
+          </div>
+        </div>
+        
+      </main>
     </div>
   );
 }

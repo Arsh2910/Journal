@@ -15,6 +15,7 @@ import PageHeader from "../components/PageHeader";
 import MoodSelector from "../components/MoodSelector";
 import StickyNote from "../components/StickyNote";
 import LockedDay from "../components/LockedDay";
+import LoadingState from "../components/LoadingState";
 
 export default function Journal() {
   const { day: dayParam }  = useParams();
@@ -135,7 +136,7 @@ export default function Journal() {
   if (cLoading || jLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <p className="turning-page">Turning the page...</p>
+        <LoadingState message="Turning the page..." />
       </div>
     );
   }

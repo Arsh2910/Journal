@@ -6,6 +6,7 @@ import { getProgress } from "../services/progressApi";
 import { useAuth } from "../hooks/useAuth";
 import ProgressBar from "../components/ProgressBar";
 import AvatarPicker, { getAvatarSrc } from "../components/AvatarPicker";
+import LoadingState from "../components/LoadingState";
 
 function formatDate(dateStr) {
   if (!dateStr) return "";
@@ -37,7 +38,7 @@ export default function Profile() {
   if (cLoading || jLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <p className="turning-page">Loading your record...</p>
+        <LoadingState message="Loading your record..." />
       </div>
     );
   }

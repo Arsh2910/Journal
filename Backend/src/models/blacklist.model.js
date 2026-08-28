@@ -7,7 +7,7 @@ const blacklistSchema = new mongoose.Schema({
   },
 });
 
-const tokenBlacklistModel = new mongoose.model(
+const tokenBlacklistModel = mongoose.model(
   "TokenBlacklist",
   blacklistSchema,
 );
