@@ -15,7 +15,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "http://localhost:5174",
-      "https://daybook-one-swart.vercel.app/",
+      "https://daybook-one-swart.vercel.app",
     ],
     credentials: true,
   }),
