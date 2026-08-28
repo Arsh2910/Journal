@@ -22,8 +22,8 @@ export const login = (userName, email, password) =>
 export const logout = () =>
   fetch(`${API}/api/auth/logout`, opts("POST")).then(handle);
 
-export const googleLogin = (idToken) =>
-  fetch(`${API}/api/auth/google`, opts("POST", { idToken })).then(handle);
+export const googleLogin = (idToken, avatar) =>
+  fetch(`${API}/api/auth/google`, opts("POST", { idToken, avatar })).then(handle);
 
 export const updateAvatar = (avatarId) =>
   fetch(`${API}/api/user/avatar`, opts("PATCH", { avatarId })).then(handle);

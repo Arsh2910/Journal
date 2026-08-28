@@ -23,7 +23,7 @@ export default function Register() {
       setError("");
       setGoogleLoading(true);
       try {
-        const data = await googleLogin(response.credential);
+        const data = await googleLogin(response.credential, avatar);
         loginWithGoogle(data);
         navigate("/create");
       } catch (err) {
@@ -32,7 +32,7 @@ export default function Register() {
         setGoogleLoading(false);
       }
     },
-    [loginWithGoogle, navigate],
+    [loginWithGoogle, navigate, avatar],
   );
 
   const googleBtnRef = useCallback(

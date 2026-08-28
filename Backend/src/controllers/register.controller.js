@@ -82,9 +82,9 @@ async function loginUser(req, res, next) {
 }
 async function googleLogin(req, res, next) {
   try {
-    const { idToken } = req.body;
+    const { idToken, avatar } = req.body;
     const { email, googleId } = await verifyGoogleToken(idToken);
-    const user = await findOrCreateGoogleUser({ email, googleId });
+    const { user, isNew } = await findOrCreateGoogleUser({ email, googleId, avatar });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
@@ -102,6 +102,7 @@ async function googleLogin(req, res, next) {
       userName: user.userName,
       email: user.email,
       avatar: user.avatar,
+      isNewUser: isNew,
     });
   } catch (err) {
     next(err);

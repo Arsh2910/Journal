@@ -12,7 +12,7 @@ async function generateUniqueUsername(email) {
   return candidate;
 }
 
-async function findOrCreateGoogleUser({ email, googleId }) {
+async function findOrCreateGoogleUser({ email, googleId, avatar }) {
   let user = await User.findOne({ email });
 
   if (user) {
@@ -20,12 +20,12 @@ async function findOrCreateGoogleUser({ email, googleId }) {
       user.googleId = googleId;
       await user.save();
     }
-    return user;
+    return { user, isNew: false };
   }
 
   const userName = await generateUniqueUsername(email);
-  user = await User.create({ email, googleId, userName });
-  return user;
+  user = await User.create({ email, googleId, userName, avatar: avatar || "avatar-default" });
+  return { user, isNew: true };
 }
 
 module.exports = { findOrCreateGoogleUser };

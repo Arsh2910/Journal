@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { googleLogin } from "../services/authApi";
 import { useGoogleIdentity } from "../hooks/useGoogleIdentity";
+import AvatarPicker from "../components/AvatarPicker";
 
 export default function Login() {
   const { login, loginWithGoogle } = useAuth();
@@ -11,6 +12,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
   const googleScriptLoaded = useGoogleIdentity();
 
   const handleGoogleCredentialResponse = useCallback(
@@ -20,7 +22,11 @@ export default function Login() {
       try {
         const data = await googleLogin(response.credential);
         loginWithGoogle(data);
-        navigate("/journal");
+        if (data.isNewUser) {
+          setShowAvatarPicker(true);
+        } else {
+          navigate("/journal");
+        }
       } catch (err) {
         setError(err.message || "Google sign-in failed");
       } finally {
@@ -189,6 +195,14 @@ export default function Login() {
           </Link>
         </p>
       </div>
+      
+      {showAvatarPicker && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="relative max-w-lg w-full">
+            <AvatarPicker onClose={() => navigate("/create")} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
