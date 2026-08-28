@@ -10,7 +10,6 @@ import {
   register as registerApi,
   logout as logoutApi,
   updateAvatar as updateAvatarApi,
-  getMe,
 } from "../services/authApi";
 
 const AuthContext = createContext(null);
@@ -57,8 +56,8 @@ export function AuthProvider({ children }) {
     });
   }, []);
 
-  const register = useCallback(async (userName, email, password) => {
-    const data = await registerApi(userName, email, password);
+  const register = useCallback(async (userName, email, password, avatar) => {
+    const data = await registerApi(userName, email, password, avatar);
     setUser({
       authenticated: true,
       userName: data.userName,
@@ -91,7 +90,15 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, loginWithGoogle, register, logout, updateUserAvatar }}
+      value={{
+        user,
+        loading,
+        login,
+        loginWithGoogle,
+        register,
+        logout,
+        updateUserAvatar,
+      }}
     >
       {children}
     </AuthContext.Provider>

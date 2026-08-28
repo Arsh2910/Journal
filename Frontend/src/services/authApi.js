@@ -13,8 +13,8 @@ const handle = async (res) => {
   return data;
 };
 
-export const register = (userName, email, password) =>
-  fetch(`${API}/api/auth/register`, opts("POST", { userName, email, password })).then(handle);
+export const register = (userName, email, password, avatar) =>
+  fetch(`${API}/api/auth/register`, opts("POST", { userName, email, password, avatar })).then(handle);
 
 export const login = (userName, email, password) =>
   fetch(`${API}/api/auth/login`, opts("POST", { userName, email, password })).then(handle);

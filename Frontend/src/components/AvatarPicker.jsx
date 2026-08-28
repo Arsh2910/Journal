@@ -45,15 +45,25 @@ export function getAvatarSrc(avatarId) {
  * Renders a compact grid of 13 avatar options (including default).
  * The currently selected avatar gets a sage-green inset ring.
  */
-export default function AvatarPicker({ onClose }) {
+export default function AvatarPicker({ onClose, value, onChange }) {
   const { user, updateUserAvatar } = useAuth();
-  const [selected, setSelected] = useState(user?.avatar || "avatar-default");
+  const isControlled = value !== undefined && onChange !== undefined;
+  
+  const [selected, setSelected] = useState(isControlled ? value : (user?.avatar || "avatar-default"));
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
 
   const handleSelect = async (avatarId) => {
-    if (avatarId === selected || saving) return;
+    if (saving) return;
+    
+    if (isControlled) {
+      onChange(avatarId);
+      return;
+    }
+
+    if (avatarId === selected) return;
+
     setSelected(avatarId);
     setSaving(true);
     setSaved(false);
@@ -73,6 +83,8 @@ export default function AvatarPicker({ onClose }) {
       setSaving(false);
     }
   };
+
+  const currentSelected = isControlled ? value : selected;
 
   return (
     <div
@@ -98,7 +110,7 @@ export default function AvatarPicker({ onClose }) {
       {/* Avatar grid — 4 columns */}
       <div className="grid grid-cols-4 gap-3">
         {AVATAR_IDS.map((id) => {
-          const isSelected = id === selected;
+          const isSelected = id === currentSelected;
           return (
             <button
               key={id}

@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { googleLogin } from "../services/authApi";
 import { useGoogleIdentity } from "../hooks/useGoogleIdentity";
+import AvatarPicker from "../components/AvatarPicker";
 
 export default function Register() {
   const { register, login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ userName: "", email: "", password: "" });
+  const [avatar, setAvatar] = useState("avatar-default");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -59,7 +61,7 @@ export default function Register() {
     setError("");
     setLoading(true);
     try {
-      await register(form.userName, form.email, form.password);
+      await register(form.userName, form.email, form.password, avatar);
       navigate("/create");
     } catch (err) {
       setError(err.message);
@@ -134,6 +136,10 @@ export default function Register() {
                 setForm((p) => ({ ...p, password: e.target.value }))
               }
             />
+          </div>
+
+          <div className="pt-2">
+            <AvatarPicker value={avatar} onChange={setAvatar} />
           </div>
 
           {error && (
