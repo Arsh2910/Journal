@@ -21,7 +21,6 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     (async () => {
       try {
-        const data = await getMe();
         setUser({
           authenticated: true,
           userName: data.userName,

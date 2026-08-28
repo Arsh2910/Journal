@@ -30,10 +30,10 @@ async function registerUser(req, res, next) {
 
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      secure: true,
+      sameSite: "none",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-
     res.status(201).json({
       message: "User registered successfully",
       id: user._id,
@@ -66,7 +66,8 @@ async function loginUser(req, res, next) {
     });
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
     res.status(200).json({
@@ -84,7 +85,11 @@ async function googleLogin(req, res, next) {
   try {
     const { idToken, avatar } = req.body;
     const { email, googleId } = await verifyGoogleToken(idToken);
-    const { user, isNew } = await findOrCreateGoogleUser({ email, googleId, avatar });
+    const { user, isNew } = await findOrCreateGoogleUser({
+      email,
+      googleId,
+      avatar,
+    });
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
@@ -92,7 +97,8 @@ async function googleLogin(req, res, next) {
 
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
