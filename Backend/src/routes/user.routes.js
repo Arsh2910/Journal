@@ -1,9 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { updateAvatar } = require("../controllers/user.controller");
+const {
+  updateAvatar,
+  getCurrentUser,
+} = require("../controllers/user.controller");
 const { authUser } = require("../middlewares/auth.middleware");
 
-// PATCH /api/user/avatar — requires auth
 router.patch("/avatar", authUser, updateAvatar);
+
+router.get("/me", authUser, getCurrentUser);
 
 module.exports = router;

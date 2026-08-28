@@ -27,3 +27,6 @@ export const googleLogin = (idToken, avatar) =>
 
 export const updateAvatar = (avatarId) =>
   fetch(`${API}/api/user/avatar`, opts("PATCH", { avatarId })).then(handle);
+
+export const getCurrentUser = () =>
+  fetch(`${API}/api/user/me`, opts("GET")).then(handle);

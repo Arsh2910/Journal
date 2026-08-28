@@ -10,6 +10,7 @@ import {
   register as registerApi,
   logout as logoutApi,
   updateAvatar as updateAvatarApi,
+  getCurrentUser,
 } from "../services/authApi";
 
 const AuthContext = createContext(null);
@@ -21,6 +22,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     (async () => {
       try {
+        const data = await getCurrentUser();
         setUser({
           authenticated: true,
           userName: data.userName,

@@ -29,14 +29,14 @@ async function updateAvatar(req, res, next) {
     if (!ALLOWED_AVATARS.includes(avatarId)) {
       throw new AppError(
         `Invalid avatar ID. Must be one of: ${ALLOWED_AVATARS.join(", ")}`,
-        400
+        400,
       );
     }
 
     const user = await userModel.findByIdAndUpdate(
       req.user.id,
       { avatar: avatarId },
-      { new: true }
+      { new: true },
     );
 
     if (!user) {
@@ -52,4 +52,21 @@ async function updateAvatar(req, res, next) {
   }
 }
 
-module.exports = { updateAvatar };
+async function getCurrentUser(req, res, next) {
+  try {
+    const user = await userModel.findById(req.user.id);
+    if (!user) {
+      throw new AppError("User not found", 404);
+    }
+    res.status(200).json({
+      id: user._id,
+      userName: user.userName,
+      email: user.email,
+      avatar: user.avatar,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { updateAvatar, getCurrentUser };

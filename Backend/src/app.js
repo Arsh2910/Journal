@@ -9,7 +9,7 @@ const noteRoutes = require("./routes/notes.routes");
 const progressRoutes = require("./routes/progress.routes");
 const userRoutes = require("./routes/user.routes");
 const { errorMiddleware } = require("./middlewares/error.middleware");
-
+const express;
 app.use(
   cors({
     origin: [
