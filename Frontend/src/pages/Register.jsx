@@ -25,7 +25,11 @@ export default function Register() {
       try {
         const data = await googleLogin(response.credential, avatar);
         loginWithGoogle(data);
-        navigate("/create");
+        if (data.isNewUser) {
+          navigate("/create");
+        } else {
+          navigate("/journal");
+        }
       } catch (err) {
         setError(err.message || "Google sign-up failed");
       } finally {
