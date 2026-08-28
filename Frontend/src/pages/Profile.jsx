@@ -5,6 +5,7 @@ import { useJournal } from "../hooks/useJournal";
 import { getProgress } from "../services/progressApi";
 import { useAuth } from "../hooks/useAuth";
 import ProgressBar from "../components/ProgressBar";
+import AvatarPicker, { getAvatarSrc } from "../components/AvatarPicker";
 
 function formatDate(dateStr) {
   if (!dateStr) return "";
@@ -26,6 +27,7 @@ export default function Profile() {
   const { challenge, currentDay, loading: cLoading } = useChallenge();
   const { journals, loading: jLoading }              = useJournal();
   const [progress, setProgress]      = useState(null);
+  const [pickerOpen, setPickerOpen]  = useState(false);
 
   useEffect(() => {
     if (!challenge) return;
@@ -40,19 +42,58 @@ export default function Profile() {
     );
   }
 
+  const avatarSrc = getAvatarSrc(user?.avatar || "avatar-default");
+
   return (
     <div className="min-h-screen bg-background desk-texture py-12 px-4">
       <div className="max-w-3xl mx-auto space-y-12" style={{ animation: "fade-in 0.4s ease-out" }}>
-        {/* Header */}
-        <div className="space-y-3">
-          <p className="stamp-label text-primary">Profile</p>
-          <h1 className="font-serif text-display-lg text-secondary-fixed" style={{ letterSpacing: "-0.02em" }}>
-            Your Record
-          </h1>
-          <div className="w-16 h-px bg-outline-variant/50" />
+
+        {/* ---- AVATAR + IDENTITY HEADER ---- */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+          {/* Avatar image */}
+          <div className="relative flex-shrink-0">
+            <div
+              className="w-24 h-24 overflow-hidden bg-surface-container-low"
+              style={{
+                boxShadow: "inset 0 0 0 1px color-mix(in srgb, var(--color-outline-variant) 40%, transparent), 0 4px 16px rgba(0,0,0,0.25)",
+              }}
+            >
+              <img
+                src={avatarSrc}
+                alt="Your avatar"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Name + change affordance */}
+          <div className="space-y-2">
+            <p className="stamp-label text-primary">Profile</p>
+            <h1
+              className="font-serif text-display-lg text-secondary-fixed"
+              style={{ letterSpacing: "-0.02em" }}
+            >
+              {user?.userName || "Your Record"}
+            </h1>
+            {/* "Change avatar" — styled like a stamp label, not an icon overlay */}
+            <button
+              onClick={() => setPickerOpen((o) => !o)}
+              className="stamp-label text-outline hover:text-secondary transition-colors duration-200 normal-case"
+              style={{ letterSpacing: "0.04em", textTransform: "none" }}
+            >
+              {pickerOpen ? "↑ Cancel" : "Change emblem ↓"}
+            </button>
+          </div>
         </div>
 
-        {/* Current challenge */}
+        {/* ---- AVATAR PICKER (inline accordion) ---- */}
+        {pickerOpen && (
+          <AvatarPicker onClose={() => setPickerOpen(false)} />
+        )}
+
+        <div className="w-16 h-px bg-outline-variant/50" style={{ background: "color-mix(in srgb, var(--color-outline-variant) 50%, transparent)" }} />
+
+        {/* ---- CURRENT CHALLENGE ---- */}
         {challenge ? (
           <div className="space-y-6">
             <div className="journal-paper p-8 space-y-6">
@@ -104,7 +145,10 @@ export default function Profile() {
               )}
 
               {/* Dates */}
-              <div className="flex gap-8 pt-4 border-t border-outline-variant/20">
+              <div
+                className="flex gap-8 pt-4 border-t"
+                style={{ borderTopColor: "color-mix(in srgb, var(--color-outline-variant) 20%, transparent)" }}
+              >
                 <div>
                   <p className="stamp-label text-outline">Started</p>
                   <p className="font-serif text-body-md text-on-surface mt-1">
@@ -129,12 +173,12 @@ export default function Profile() {
           </div>
         )}
 
-        {/* Completed challenges — placeholder (no backend endpoint) */}
+        {/* Past challenges placeholder */}
         <div className="space-y-4">
           <div className="flex items-center gap-4">
-            <div className="flex-1 h-px bg-outline-variant/30" />
+            <div className="flex-1 h-px" style={{ background: "color-mix(in srgb, var(--color-outline-variant) 30%, transparent)" }} />
             <p className="stamp-label text-outline">Past Challenges</p>
-            <div className="flex-1 h-px bg-outline-variant/30" />
+            <div className="flex-1 h-px" style={{ background: "color-mix(in srgb, var(--color-outline-variant) 30%, transparent)" }} />
           </div>
           <div className="journal-paper p-6 opacity-40">
             <p className="font-serif italic text-on-surface-variant text-body-md">
@@ -147,7 +191,10 @@ export default function Profile() {
         </div>
 
         {/* Nav */}
-        <div className="flex items-center gap-6 pt-4 border-t border-outline-variant/20">
+        <div
+          className="flex items-center gap-6 pt-4 border-t"
+          style={{ borderTopColor: "color-mix(in srgb, var(--color-outline-variant) 20%, transparent)" }}
+        >
           <Link to="/journal" className="nav-link text-xs">← Today's Journal</Link>
           <Link to="/journey" className="nav-link text-xs">Journey Map →</Link>
         </div>

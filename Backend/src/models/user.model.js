@@ -13,8 +13,10 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false,
   },
+  googleId: { type: String, required: false, unique: true, sparse: true },
+  avatar: { type: String, default: "avatar-default" },
 });
 
 const userModel = mongoose.model("user", userSchema);

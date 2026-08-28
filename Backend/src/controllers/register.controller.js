@@ -1,4 +1,7 @@
 const userModel = require("../models/user.model");
+const { verifyGoogleToken } = require("../services/googleAuth.service");
+const { findOrCreateGoogleUser } = require("../services/auth.service");
+const tokenBlacklistModel = require("../models/blacklist.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
@@ -20,18 +23,22 @@ async function registerUser(req, res, next) {
       password: hash,
     });
 
-    const token = jwt.sign(
-      {
-        id: user._id,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" },
-    );
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
     res.status(201).json({
       message: "User registered successfully",
       id: user._id,
-      username: user.userName,
+      userName: user.userName,
       email: user.email,
+      avatar: user.avatar,
     });
   } catch (error) {
     next(error);
@@ -53,13 +60,9 @@ async function loginUser(req, res, next) {
       throw new AppError("Invalid password", 404);
     }
 
-    const token = jwt.sign(
-      {
-        id: user._id,
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" },
-    );
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "lax",
@@ -70,12 +73,39 @@ async function loginUser(req, res, next) {
       id: user._id,
       userName: user.userName,
       email: user.email,
+      avatar: user.avatar,
     });
   } catch (error) {
     next(error);
   }
 }
+async function googleLogin(req, res, next) {
+  try {
+    const { idToken } = req.body;
+    const { email, googleId } = await verifyGoogleToken(idToken);
+    const user = await findOrCreateGoogleUser({ email, googleId });
 
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({
+      message: "User logged in successfully",
+      id: user._id,
+      userName: user.userName,
+      email: user.email,
+      avatar: user.avatar,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
 async function logoutUser(req, res, next) {
   const token = req.cookies.token;
   try {
@@ -89,4 +119,4 @@ async function logoutUser(req, res, next) {
     next(err);
   }
 }
-module.exports = { registerUser, loginUser };
+module.exports = { registerUser, loginUser, logoutUser, googleLogin };

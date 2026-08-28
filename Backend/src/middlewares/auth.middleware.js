@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const AppError = require("../utils/AppError");
+const AppError = require("../utils/appError");
 const blacklistModel = require("../models/blacklist.model");
 async function authUser(req, res, next) {
   try {

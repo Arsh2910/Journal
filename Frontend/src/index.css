@@ -6,19 +6,201 @@
 
 /* ============================================================
    NOCTURNAL ARCHIVIST — GLOBAL DESIGN SYSTEM
+   CSS Custom Properties — Dark (default) & Light tokens
    ============================================================ */
 
+/* ---- DARK MODE (default) ---- */
+:root,
+:root.dark {
+  color-scheme: dark;
+
+  /* Surfaces */
+  --color-background:                #151311;
+  --color-surface:                   #151311;
+  --color-surface-dim:               #151311;
+  --color-surface-bright:            #3b3936;
+  --color-surface-container-lowest:  #100e0c;
+  --color-surface-container-low:     #1d1b19;
+  --color-surface-container:         #211f1d;
+  --color-surface-container-high:    #2c2927;
+  --color-surface-container-highest: #373432;
+  --color-surface-variant:           #373432;
+  --color-on-surface:                #e7e1de;
+  --color-on-surface-variant:        #c3c8bd;
+  --color-inverse-surface:           #e7e1de;
+  --color-inverse-on-surface:        #32302e;
+  --color-outline:                   #8d9388;
+  --color-outline-variant:           #434840;
+  --color-surface-tint:              #abd1a1;
+
+  /* Primary — Forest Sage */
+  --color-primary:                   #abd1a1;
+  --color-on-primary:                #183715;
+  --color-primary-container:         #769a6e;
+  --color-on-primary-container:      #11300f;
+  --color-inverse-primary:           #45673f;
+  --color-primary-fixed:             #c7edbb;
+  --color-primary-fixed-dim:         #abd1a1;
+  --color-on-primary-fixed:          #022103;
+  --color-on-primary-fixed-variant:  #2e4e29;
+
+  /* Secondary — Cream */
+  --color-secondary:                 #cdc6b6;
+  --color-on-secondary:              #343025;
+  --color-secondary-container:       #4d493d;
+  --color-on-secondary-container:    #bfb8a9;
+  --color-secondary-fixed:           #eae2d2;
+  --color-secondary-fixed-dim:       #cdc6b6;
+  --color-on-secondary-fixed:        #1f1b12;
+  --color-on-secondary-fixed-variant: #4b463b;
+
+  /* Tertiary — Brass/Gold */
+  --color-tertiary:                  #dcc497;
+  --color-on-tertiary:               #3d2e0e;
+  --color-tertiary-container:        #a38e65;
+  --color-on-tertiary-container:     #362808;
+  --color-tertiary-fixed:            #f9dfb1;
+  --color-tertiary-fixed-dim:        #dcc497;
+  --color-on-tertiary-fixed:         #261a00;
+  --color-on-tertiary-fixed-variant: #554422;
+
+  /* Error */
+  --color-error:                     #ffb4ab;
+  --color-on-error:                  #690005;
+  --color-error-container:           #93000a;
+  --color-on-error-container:        #ffdad6;
+
+  /* Shadows — heavy dark */
+  --shadow-paper:      0 4px 24px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.3);
+  --shadow-paper-lift: 0 8px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-stamp:      inset 1px 1px 2px rgba(255,255,255,0.1), inset -1px -1px 2px rgba(0,0,0,0.3), 2px 2px 5px rgba(0,0,0,0.4);
+  --shadow-sticky:     3px 3px 10px rgba(0,0,0,0.4), 1px 1px 3px rgba(0,0,0,0.3);
+
+  /* Component-specific */
+  --journal-paper-border-left:        #211f1d;
+  --journal-paper-active-border-left: #2c2927;
+  --journal-paper-shadow:             0 4px 24px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(67,72,64,0.3);
+  --journal-paper-active-shadow:      0 8px 40px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(67,72,64,0.4);
+  --sticky-note-bg:                   #3a2e1a;
+  --sticky-note-top-border:           rgba(220, 196, 151, 0.2);
+  --grid-cell-bg:                     #1d1b19;
+  --grid-cell-documented-bg:          #45673f;
+  --grid-cell-today-bg:               #abd1a1;
+  --grid-cell-future-bg:              #151311;
+  --tally-bar-bg:                     #434840;
+  --tally-bar-documented-bg:          #769a6e;
+  --tally-bar-current-bg:             #abd1a1;
+  --ruled-line-color:                 rgba(141, 147, 136, 0.12);
+  --ruled-page-margin-color:          rgba(171, 209, 161, 0.15);
+  --scrollbar-track:                  #151311;
+  --scrollbar-thumb:                  #434840;
+  --scrollbar-thumb-hover:            #8d9388;
+  --checkbox-checked-mark-color:      #abd1a1;
+  --mood-chip-color:                  #8d9388;
+}
+
+/* ---- LIGHT MODE ---- */
+:root.light {
+  color-scheme: light;
+
+  /* Surfaces — warm parchment / cream */
+  --color-background:                #f5f0e8;
+  --color-surface:                   #f5f0e8;
+  --color-surface-dim:               #e0d9cc;
+  --color-surface-bright:            #fdfaf4;
+  --color-surface-container-lowest:  #fdfaf4;
+  --color-surface-container-low:     #ede8db;
+  --color-surface-container:         #e5dfd0;
+  --color-surface-container-high:    #d9d2c2;
+  --color-surface-container-highest: #cec6b4;
+  --color-surface-variant:           #d4cebe;
+  --color-on-surface:                #1a1714;
+  --color-on-surface-variant:        #4a4a42;
+  --color-inverse-surface:           #1a1714;
+  --color-inverse-on-surface:        #f5f0e8;
+  --color-outline:                   #7a7a6e;
+  --color-outline-variant:           #c8c4b4;
+  --color-surface-tint:              #45673f;
+
+  /* Primary — Deep Forest (inverted from dark sage) */
+  --color-primary:                   #45673f;
+  --color-on-primary:                #ffffff;
+  --color-primary-container:         #c7edbb;
+  --color-on-primary-container:      #11300f;
+  --color-inverse-primary:           #abd1a1;
+  --color-primary-fixed:             #c7edbb;
+  --color-primary-fixed-dim:         #abd1a1;
+  --color-on-primary-fixed:          #022103;
+  --color-on-primary-fixed-variant:  #2e4e29;
+
+  /* Secondary — Charcoal Ink (inverted from cream) */
+  --color-secondary:                 #3d3830;
+  --color-on-secondary:              #f5f0e8;
+  --color-secondary-container:       #eae2d2;
+  --color-on-secondary-container:    #2d2922;
+  --color-secondary-fixed:           #eae2d2;
+  --color-secondary-fixed-dim:       #3d3830;
+  --color-on-secondary-fixed:        #f5f0e8;
+  --color-on-secondary-fixed-variant: #6b6358;
+
+  /* Tertiary — Dark Brass (inverted from bright brass) */
+  --color-tertiary:                  #6b5a2e;
+  --color-on-tertiary:               #ffffff;
+  --color-tertiary-container:        #f9dfb1;
+  --color-on-tertiary-container:     #362808;
+  --color-tertiary-fixed:            #f9dfb1;
+  --color-tertiary-fixed-dim:        #dcc497;
+  --color-on-tertiary-fixed:         #261a00;
+  --color-on-tertiary-fixed-variant: #554422;
+
+  /* Error */
+  --color-error:                     #ba1a1a;
+  --color-on-error:                  #ffffff;
+  --color-error-container:           #ffdad6;
+  --color-on-error-container:        #93000a;
+
+  /* Shadows — soft warm daylight */
+  --shadow-paper:      0 2px 12px rgba(60,40,20,0.1), 0 1px 3px rgba(60,40,20,0.08);
+  --shadow-paper-lift: 0 6px 24px rgba(60,40,20,0.14), 0 2px 6px rgba(60,40,20,0.1);
+  --shadow-stamp:      inset 1px 1px 2px rgba(255,255,255,0.6), inset -1px -1px 2px rgba(60,40,20,0.1), 2px 2px 5px rgba(60,40,20,0.15);
+  --shadow-sticky:     3px 3px 10px rgba(60,40,20,0.18), 1px 1px 3px rgba(60,40,20,0.12);
+
+  /* Component-specific */
+  --journal-paper-border-left:        #e5dfd0;
+  --journal-paper-active-border-left: #d9d2c2;
+  --journal-paper-shadow:             0 2px 12px rgba(60,40,20,0.1), 0 1px 3px rgba(60,40,20,0.08), inset 0 0 0 1px rgba(200,196,180,0.5);
+  --journal-paper-active-shadow:      0 6px 24px rgba(60,40,20,0.14), 0 2px 6px rgba(60,40,20,0.1), inset 0 0 0 1px rgba(200,196,180,0.6);
+  --sticky-note-bg:                   #fef3c7;
+  --sticky-note-top-border:           rgba(107, 90, 46, 0.25);
+  --grid-cell-bg:                     #ede8db;
+  --grid-cell-documented-bg:          #769a6e;
+  --grid-cell-today-bg:               #45673f;
+  --grid-cell-future-bg:              #f5f0e8;
+  --tally-bar-bg:                     #c8c4b4;
+  --tally-bar-documented-bg:          #769a6e;
+  --tally-bar-current-bg:             #45673f;
+  --ruled-line-color:                 rgba(122, 122, 110, 0.15);
+  --ruled-page-margin-color:          rgba(69, 103, 63, 0.18);
+  --scrollbar-track:                  #f5f0e8;
+  --scrollbar-thumb:                  #c8c4b4;
+  --scrollbar-thumb-hover:            #7a7a6e;
+  --checkbox-checked-mark-color:      #45673f;
+  --mood-chip-color:                  #7a7a6e;
+}
+
+/* ---- BASE LAYER ---- */
 @layer base {
   *, *::before, *::after {
     box-sizing: border-box;
   }
 
   html {
-    color-scheme: dark;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   body {
     @apply bg-background text-on-surface font-serif antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
   }
 
@@ -32,13 +214,13 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #151311;
+    background: var(--scrollbar-track);
   }
   ::-webkit-scrollbar-thumb {
-    background: #434840;
+    background: var(--scrollbar-thumb);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #8d9388;
+    background: var(--scrollbar-thumb-hover);
   }
 }
 
@@ -58,8 +240,8 @@
       to bottom,
       transparent,
       transparent calc(1.6rem - 1px),
-      rgba(141, 147, 136, 0.12) calc(1.6rem - 1px),
-      rgba(141, 147, 136, 0.12) 1.6rem
+      var(--ruled-line-color) calc(1.6rem - 1px),
+      var(--ruled-line-color) 1.6rem
     );
     background-size: 100% 1.6rem;
     background-attachment: local;
@@ -67,13 +249,13 @@
 
   .ruled-lines-page {
     background-image: 
-      linear-gradient(to right, rgba(171, 209, 161, 0.15) 0, rgba(171, 209, 161, 0.15) 2px, transparent 2px),
+      linear-gradient(to right, var(--ruled-page-margin-color) 0, var(--ruled-page-margin-color) 2px, transparent 2px),
       repeating-linear-gradient(
         to bottom,
         transparent,
         transparent calc(1.6rem - 1px),
-        rgba(141, 147, 136, 0.1) calc(1.6rem - 1px),
-        rgba(141, 147, 136, 0.1) 1.6rem
+        var(--ruled-line-color) calc(1.6rem - 1px),
+        var(--ruled-line-color) 1.6rem
       );
     background-size: 100% 100%, 100% 1.6rem;
     padding-left: 2.5rem;
@@ -82,30 +264,23 @@
   /* ---- JOURNAL PAPER CARD ---- */
   .journal-paper {
     @apply bg-surface-container-low paper-texture;
-    box-shadow: 
-      0 4px 24px rgba(0,0,0,0.5),
-      0 1px 4px rgba(0,0,0,0.3),
-      inset 0 0 0 1px rgba(67,72,64,0.3);
-    border-left: 8px solid #211f1d;
+    box-shadow: var(--journal-paper-shadow);
+    border-left: 8px solid var(--journal-paper-border-left);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   }
 
   .journal-paper-active {
     @apply bg-surface-container paper-texture;
-    box-shadow: 
-      0 8px 40px rgba(0,0,0,0.6),
-      0 2px 8px rgba(0,0,0,0.4),
-      inset 0 0 0 1px rgba(67,72,64,0.4);
-    border-left: 8px solid #2c2927;
+    box-shadow: var(--journal-paper-active-shadow);
+    border-left: 8px solid var(--journal-paper-active-border-left);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   }
 
   /* ---- EMBOSSED BUTTON (ink stamp style) ---- */
   .btn-embossed {
     @apply border border-secondary text-secondary-fixed-dim font-sans text-label-md uppercase tracking-widest px-8 py-3 transition-all duration-300;
     background: transparent;
-    box-shadow: 
-      inset 1px 1px 2px rgba(255,255,255,0.08),
-      inset -1px -1px 2px rgba(0,0,0,0.3),
-      2px 2px 5px rgba(0,0,0,0.4);
+    box-shadow: var(--shadow-stamp);
   }
   .btn-embossed:hover {
     @apply bg-secondary text-background;
@@ -118,7 +293,7 @@
 
   .btn-primary {
     @apply bg-primary-container text-on-primary font-sans text-label-md uppercase tracking-widest px-8 py-3 transition-all duration-300 border border-primary-container;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    box-shadow: var(--shadow-paper);
   }
   .btn-primary:hover {
     @apply bg-primary text-on-primary;
@@ -147,11 +322,12 @@
 
   /* ---- STICKY NOTE ---- */
   .sticky-note {
-    background-color: #3a2e1a;
+    background-color: var(--sticky-note-bg);
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E");
-    box-shadow: 3px 3px 10px rgba(0,0,0,0.4), 1px 1px 3px rgba(0,0,0,0.3);
+    box-shadow: var(--shadow-sticky);
     transform: rotate(-1deg);
-    border-top: 4px solid rgba(220, 196, 151, 0.2);
+    border-top: 4px solid var(--sticky-note-top-border);
+    transition: background-color 0.3s ease;
   }
   .sticky-note:hover {
     transform: rotate(0deg);
@@ -169,7 +345,7 @@
   .checkbox-ink.checked::after {
     content: '✕';
     font-size: 10px;
-    color: #abd1a1;
+    color: var(--checkbox-checked-mark-color);
     font-weight: 700;
     line-height: 1;
   }
@@ -177,31 +353,31 @@
   /* ---- PROGRESS TALLY ---- */
   .tally-bar {
     @apply w-1.5 transition-all duration-500;
-    background-color: #434840;
+    background-color: var(--tally-bar-bg);
   }
   .tally-bar.documented {
-    background-color: #769a6e;
+    background-color: var(--tally-bar-documented-bg);
   }
   .tally-bar.current {
-    background-color: #abd1a1;
+    background-color: var(--tally-bar-current-bg);
     box-shadow: 0 0 6px rgba(171, 209, 161, 0.4);
   }
 
   /* ---- CONTRIBUTION GRID CELL ---- */
   .grid-cell {
-    @apply w-4 h-4 border border-outline-variant/20 transition-all duration-300;
-    background-color: #1d1b19;
+    @apply w-4 h-4 transition-all duration-300;
+    border: 1px solid color-mix(in srgb, var(--color-outline-variant) 20%, transparent);
+    background-color: var(--grid-cell-bg);
   }
   .grid-cell.documented {
-    background-color: #45673f;
+    background-color: var(--grid-cell-documented-bg);
     animation: ink-bleed 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   }
   .grid-cell.today {
-    background-color: #abd1a1;
-    box-shadow: 0 0 8px rgba(171, 209, 161, 0.5);
+    background-color: var(--grid-cell-today-bg);
   }
   .grid-cell.future {
-    background-color: #151311;
+    background-color: var(--grid-cell-future-bg);
     opacity: 0.4;
     cursor: not-allowed;
   }
@@ -210,7 +386,7 @@
   .mood-chip {
     @apply font-sans text-label-sm uppercase tracking-widest px-3 py-1 border border-outline-variant transition-all duration-200 cursor-pointer;
     background: transparent;
-    color: #8d9388;
+    color: var(--mood-chip-color);
   }
   .mood-chip:hover {
     @apply border-outline text-on-surface-variant;
@@ -222,14 +398,21 @@
 
   /* ---- INPUT FIELD (ruled line style) ---- */
   .ink-input {
-    @apply w-full bg-transparent border-b border-outline-variant text-on-surface font-serif text-body-md outline-none py-1 transition-colors duration-200 placeholder-on-surface-variant/40;
+    @apply w-full bg-transparent border-b border-outline-variant text-on-surface font-serif text-body-md outline-none py-1 transition-colors duration-200;
+    color: var(--color-on-surface);
+  }
+  .ink-input::placeholder {
+    color: color-mix(in srgb, var(--color-on-surface-variant) 40%, transparent);
   }
   .ink-input:focus {
-    @apply border-b-secondary;
+    border-bottom-color: var(--color-secondary);
   }
 
   .ink-textarea {
-    @apply w-full bg-transparent border-none text-on-surface font-serif text-body-md outline-none resize-none placeholder-on-surface-variant/40 leading-[1.6rem];
+    @apply w-full bg-transparent border-none text-on-surface font-serif text-body-md outline-none resize-none leading-[1.6rem];
+  }
+  .ink-textarea::placeholder {
+    color: color-mix(in srgb, var(--color-on-surface-variant) 40%, transparent);
   }
 
   /* ---- PAGE NUMBER ---- */
@@ -256,15 +439,28 @@
 
   /* ---- ARCHIVE ENTRY ---- */
   .archive-entry {
-    @apply border-b border-outline-variant/30 py-4 flex items-start gap-6 transition-all duration-200 cursor-pointer;
+    @apply border-b py-4 flex items-start gap-6 transition-all duration-200 cursor-pointer;
+    border-bottom-color: color-mix(in srgb, var(--color-outline-variant) 30%, transparent);
   }
   .archive-entry:hover {
-    @apply border-outline-variant/60 bg-surface-container-low/50 px-3 -mx-3;
+    @apply px-3 -mx-3;
+    border-bottom-color: color-mix(in srgb, var(--color-outline-variant) 60%, transparent);
+    background-color: color-mix(in srgb, var(--color-surface-container-low) 50%, transparent);
   }
 
   /* ---- DAY STAT CARD ---- */
   .stat-card {
-    @apply bg-surface-container-low border border-outline-variant/30 p-6 paper-texture;
+    @apply bg-surface-container-low p-6 paper-texture;
+    border: 1px solid color-mix(in srgb, var(--color-outline-variant) 30%, transparent);
+  }
+
+  /* ---- THEME TOGGLE BUTTON ---- */
+  .theme-toggle {
+    @apply w-8 h-8 flex items-center justify-center border border-outline-variant text-on-surface-variant transition-all duration-200 cursor-pointer;
+    background: transparent;
+  }
+  .theme-toggle:hover {
+    @apply border-outline text-on-surface bg-surface-container;
   }
 }
 
