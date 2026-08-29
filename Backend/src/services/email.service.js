@@ -1,66 +1,36 @@
 const nodemailer = require("nodemailer");
 
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    type: "OAuth2",
+    user: process.env.SMTP_USER,
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+  },
+});
 
-async function sendOtpEmail(toEmail, otpCode) {
-  try {
-    let transporter;
+async function sendOtpEmail(email, otp) {
+  const mailOptions = {
+    from: `"DayBook" <${process.env.SMTP_USER}>`,
+    to: email,
+    subject: "Your DayBook OTP",
+    text: `Your DayBook verification code is ${otp}. It will expire in 5 minutes.`,
+    html: `
+      <div>
+        <h2>DayBook</h2>
+        <p>Your verification code is:</p>
+        <h1>${otp}</h1>
+        <p>This OTP will expire in 5 minutes.</p>
+        <p>If you did not request this code, you can safely ignore this email.</p>
+      </div>
+    `,
+  };
 
-    if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
-      transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT || 587,
-        secure: process.env.SMTP_PORT == 465, 
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
-        },
-      });
-    } else {
-      
-      console.log("No SMTP credentials found. Creating an Ethereal test account...");
-      const testAccount = await nodemailer.createTestAccount();
-      
-      transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false,
-        auth: {
-          user: testAccount.user,
-          pass: testAccount.pass,
-        },
-      });
-    }
-
-    const mailOptions = {
-      from: '"Daybook Support" <support@daybook.app>',
-      to: toEmail,
-      subject: "Your Daybook Password Reset Code",
-      text: `Your password reset code is: ${otpCode}. It will expire in 10 minutes.`,
-      html: `
-        <div style="font-family: 'Georgia', serif; color: #151311; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #dcc497; background-color: #f5f0e8;">
-          <h2 style="color: #29251f; text-align: center; border-bottom: 1px solid #dcc497; padding-bottom: 10px;">Daybook</h2>
-          <p>You requested a password reset.</p>
-          <p>Your one-time code is:</p>
-          <h1 style="font-size: 32px; letter-spacing: 4px; text-align: center; color: #45673f; padding: 20px; border: 1px dashed #434840; background-color: #ede8db;">${otpCode}</h1>
-          <p>This code will expire in <strong>10 minutes</strong>.</p>
-          <p style="font-size: 12px; color: #7a7a6e; margin-top: 40px; border-top: 1px solid #c8c4b4; padding-top: 10px;">If you did not request this, please ignore this email.</p>
-        </div>
-      `,
-    };
-
-    const info = await transporter.sendMail(mailOptions);
-    console.log("Message sent: %s", info.messageId);
-    
-   
-    if (info.messageId && info.messageId.includes("ethereal")) {
-      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    }
-
-    return info;
-  } catch (error) {
-    console.error("Error sending email:", error);
-    throw new Error("Failed to send OTP email.");
-  }
+  return await transporter.sendMail(mailOptions);
 }
 
 module.exports = {

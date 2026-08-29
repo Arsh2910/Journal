@@ -30,3 +30,12 @@ export const updateAvatar = (avatarId) =>
 
 export const getCurrentUser = () =>
   fetch(`${API}/api/user/me`, opts("GET")).then(handle);
+
+export const forgotPassword = (email) =>
+  fetch(`${API}/api/auth/forgot-password`, opts("POST", { email })).then(handle);
+
+export const verifyForgotPasswordOTP = (email, otp) =>
+  fetch(`${API}/api/auth/verify-forgot-password-otp`, opts("POST", { email, otp })).then(handle);
+
+export const resetPassword = (resetToken, newPassword) =>
+  fetch(`${API}/api/auth/reset-password`, opts("POST", { resetToken, newPassword })).then(handle);

@@ -29,5 +29,7 @@ app.use("/api/challenge", challengeRoutes);
 app.use("/api/notes", noteRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/user", userRoutes);
+
 app.use(errorMiddleware);
+
 module.exports = app;

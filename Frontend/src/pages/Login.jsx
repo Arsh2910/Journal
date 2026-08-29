@@ -129,6 +129,15 @@ export default function Login() {
                 setForm((p) => ({ ...p, password: e.target.value }))
               }
             />
+            <div className="text-right pt-1">
+              <Link
+                to="/forgot-password"
+                className="stamp-label normal-case font-normal text-outline hover:text-secondary transition-colors"
+                style={{ letterSpacing: 0 }}
+              >
+                Forgot password?
+              </Link>
+            </div>
           </div>
 
           {error && (

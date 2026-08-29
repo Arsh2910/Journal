@@ -7,7 +7,8 @@ import Navbar from "./components/Navbar";
 // Pages
 import Landing        from "./pages/Landing";
 import Login          from "./pages/Login";
-import Register       from "./pages/Register";
+import Register        from "./pages/Register";
+import ForgotPassword  from "./pages/ForgotPassword";
 import CreateChallenge from "./pages/CreateChallenge";
 import Journal        from "./pages/Journal";
 import Journey        from "./pages/Journey";
@@ -32,8 +33,9 @@ export default function App() {
           <Routes>
             {/* Public — no navbar */}
             <Route path="/" element={<Landing />} />
-            <Route path="/login"    element={<AppLayout showNav={false}><Login /></AppLayout>} />
-            <Route path="/register" element={<AppLayout showNav={false}><Register /></AppLayout>} />
+            <Route path="/login"           element={<AppLayout showNav={false}><Login /></AppLayout>} />
+            <Route path="/register"        element={<AppLayout showNav={false}><Register /></AppLayout>} />
+            <Route path="/forgot-password" element={<AppLayout showNav={false}><ForgotPassword /></AppLayout>} />
 
             {/* Protected — with navbar */}
             <Route path="/create" element={
