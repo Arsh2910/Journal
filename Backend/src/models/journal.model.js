@@ -32,6 +32,6 @@ const journalSchema = new mongoose.Schema({
     required: true,
   },
 });
-journalSchema.index({ challenge: 1, dayNumber: 1 }, { unique: true });
+journalSchema.index({ user: 1, dayNumber: 1 }, { unique: true });
 const journalModel = mongoose.model("journal", journalSchema);
 module.exports = journalModel;

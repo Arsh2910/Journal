@@ -7,11 +7,16 @@ const {
   updateJournal,
   deleteJournal,
 } = require("../controllers/journal.controller");
+const {
+  journalSchema,
+  updateJournalSchema,
+  journalQuerySchema,
+} = require("../schemas/journal.schema");
 const { authUser } = require("../middlewares/auth.middleware");
 
-router.post("/create", authUser, createJournal);
-router.get("/all", authUser, getJournals);
+router.post("/create", validate(journalSchema), authUser, createJournal);
+router.get("/all", validate(journalQuerySchema, "query"), getJournals);
 router.get("/:id", authUser, getJournalById);
-router.put("/:id", authUser, updateJournal);
+router.put("/:id", validate(updateJournalSchema), authUser, updateJournal);
 router.delete("/:id", authUser, deleteJournal);
 module.exports = router;

@@ -6,45 +6,25 @@ const { calculateCurrentDay } = require("../services/challenge.service");
 async function createChallenge(req, res, next) {
   try {
     const { startDate, duration } = req.body;
-
-    if (!startDate || !duration) {
-      throw new AppError("Start date and duration are required", 400);
-    }
-
-    if (duration < 1) {
-      throw new AppError("Duration must be at least 1 day", 400);
-    }
-
     const start = new Date(startDate);
-
-    if (isNaN(start.getTime())) {
-      throw new AppError("Invalid start date", 400);
-    }
-
     const today = new Date();
-
     today.setHours(0, 0, 0, 0);
     start.setHours(0, 0, 0, 0);
-
     if (start.getTime() !== today.getTime()) {
       throw new AppError("Challenge must start today", 400);
     }
-
     const existingChallenge = await challengeModel.findOne({
       user: req.user.id,
       status: "active",
     });
-
     if (existingChallenge) {
       throw new AppError("You already have an active challenge", 409);
     }
-
     const challenge = await challengeModel.create({
       user: req.user.id,
       startDate,
       duration,
     });
-
     res.status(201).json({
       success: true,
       message: "Challenge created successfully",

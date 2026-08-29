@@ -1,7 +1,6 @@
 const userModel = require("../models/user.model");
 const AppError = require("../utils/appError");
 
-// Hardcoded server-side allow-list — frontend cannot bypass this
 const ALLOWED_AVATARS = [
   "avatar-default",
   "avatar-1",

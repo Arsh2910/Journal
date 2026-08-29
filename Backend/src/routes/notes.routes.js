@@ -8,12 +8,20 @@ const {
   updateNote,
   deleteNote,
 } = require("../controllers/notes.controller");
-
+const {
+  createNoteSchema,
+  updateNoteSchema,
+} = require("../schemas/notes.schema");
 const { authUser } = require("../middlewares/auth.middleware");
-
-router.post("/create", authUser, createNote);
+const { objectIdSchema } = require("../schemas/common.schema");
+router.post("/create", validate(createNoteSchema), authUser, createNote);
 router.get("/today", authUser, getTodayNotes);
-router.patch("/:id", authUser, updateNote);
-router.delete("/:id", authUser, deleteNote);
+router.patch(
+  "/:id",
+  validate(updateNoteSchema, "params"),
+  authUser,
+  updateNote,
+);
+router.delete("/:id", validate(objectIdSchema, "params"), authUser, deleteNote);
 
 module.exports = router;

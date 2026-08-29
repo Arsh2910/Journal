@@ -15,7 +15,10 @@ const handle = async (res) => {
 
 // POST /api/journal/create
 export const createJournal = (title, content, date, mood) =>
-  fetch(`${API}/api/journal/create`, opts("POST", { title, content, date, mood })).then(handle);
+  fetch(
+    `${API}/api/journal/create`,
+    opts("POST", { title, content, date, mood }),
+  ).then(handle);
 
 // GET /api/journal/all — sorted by dayNumber asc
 export const getAllJournals = () =>
@@ -27,7 +30,9 @@ export const getJournalById = (id) =>
 
 // PUT /api/journal/:id
 export const updateJournal = (id, { title, content, mood }) =>
-  fetch(`${API}/api/journal/${id}`, opts("PUT", { title, content, mood })).then(handle);
+  fetch(`${API}/api/journal/${id}`, opts("PUT", { title, content, mood })).then(
+    handle,
+  );
 
 // DELETE /api/journal/:id  (today only)
 export const deleteJournal = (id) =>

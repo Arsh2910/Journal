@@ -29,7 +29,10 @@ const challengeSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
-
+challengeSchema.index({
+  user: 1,
+  status: 1,
+});
 const challengeModel = mongoose.model("Challenge", challengeSchema);
 
 module.exports = challengeModel;

@@ -61,16 +61,47 @@ async function createJournal(req, res, next) {
 
 async function getJournals(req, res, next) {
   try {
-    const journals = await journalModel
-      .find({
-        user: req.user.id,
-      })
-      .sort({ dayNumber: 1 });
+    const { page, limit, search } = req.query;
 
-    res.status(200).json({
+    const skip = (page - 1) * limit;
+
+    const filter = {
+      user: req.user.id,
+    };
+
+    if (search) {
+      filter.$or = [
+        {
+          title: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          content: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+      ];
+    }
+
+    const [journals, total] = await Promise.all([
+      journalModel.find(filter).sort({ dayNumber: 1 }).skip(skip).limit(limit),
+
+      journalModel.countDocuments(filter),
+    ]);
+
+    return res.status(200).json({
       success: true,
       message: "Journals retrieved successfully",
       journals,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
     });
   } catch (error) {
     next(error);

@@ -82,10 +82,6 @@ async function updateNote(req, res, next) {
     const { id } = req.params;
     const { title, completed } = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      throw new AppError("Invalid note ID", 400);
-    }
-
     const note = await notesModel.findOne({
       _id: id,
       user: req.user.id,
@@ -126,10 +122,6 @@ async function updateNote(req, res, next) {
 async function deleteNote(req, res, next) {
   try {
     const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      throw new AppError("Invalid note ID", 400);
-    }
 
     const note = await notesModel.findOne({
       _id: id,
