@@ -13,6 +13,7 @@ const {
   updateNoteSchema,
 } = require("../schemas/notes.schema");
 const { authUser } = require("../middlewares/auth.middleware");
+const validate = require("../middlewares/validate.middleware");
 const { objectIdSchema } = require("../schemas/common.schema");
 router.post("/create", validate(createNoteSchema), authUser, createNote);
 router.get("/today", authUser, getTodayNotes);

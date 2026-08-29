@@ -8,7 +8,7 @@ const {
 } = require("../controllers/challenge.controller");
 const { createChallengeSchema } = require("../schemas/challenge.schema");
 const { authUser } = require("../middlewares/auth.middleware");
-
+const validate = require("../middlewares/validate.middleware");
 router.post(
   "/create",
   validate(createChallengeSchema),
