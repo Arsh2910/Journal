@@ -22,15 +22,9 @@ router.post("/logout", authUser, authController.logoutUser);
 router.post("/google", validate(googleLoginSchema), authController.googleLogin);
 router.post("/verify-otp", otpVerifyLimiter, authController.verifyOTP);
 router.post("/send-otp", otpSendLimiter, authController.sendOTP);
-router.post(
-  "/forgot-password",
-  validate(emailSchema),
-  otpSendLimiter,
-  authController.forgotPassword,
-);
+router.post("/forgot-password", otpSendLimiter, authController.forgotPassword);
 router.post(
   "/verify-forgot-password-otp",
-  validate(otpSchema),
   otpVerifyLimiter,
   authController.verifyForgotPasswordOTP,
 );
