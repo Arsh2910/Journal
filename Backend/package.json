@@ -10,7 +10,8 @@
     "google-auth-library": "^11.0.2",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.9.4",
-    "nodemailer": "^9.0.6"
+    "nodemailer": "^9.0.6",
+    "zod": "^4.5.4"
   },
   "allowScripts": {
     "bcrypt@6.0.0": true
