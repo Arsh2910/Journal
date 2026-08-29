@@ -9,7 +9,7 @@ const noteRoutes = require("./routes/notes.routes");
 const progressRoutes = require("./routes/progress.routes");
 const userRoutes = require("./routes/user.routes");
 const { errorMiddleware } = require("./middlewares/error.middleware");
-app.set("trust proxy", true);
+app.set("trust proxy", 1);
 app.use(
   cors({
     origin: [
