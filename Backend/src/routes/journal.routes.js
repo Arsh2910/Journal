@@ -12,6 +12,7 @@ const {
   updateJournalSchema,
   journalQuerySchema,
 } = require("../schemas/journal.schema");
+const validate = require("../middlewares/validate.middleware");
 const { authUser } = require("../middlewares/auth.middleware");
 
 router.post("/create", validate(journalSchema), authUser, createJournal);
