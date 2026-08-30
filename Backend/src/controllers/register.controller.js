@@ -285,7 +285,7 @@ async function forgotPassword(req, res, next) {
     if (!user) {
       throw new AppError("User does not exist", 404);
     }
-
+    console.log("User found:", user); // Debugging line
     const existingOTP = await OTP.findOne({
       email: normalizedEmail,
     });
@@ -304,7 +304,7 @@ async function forgotPassword(req, res, next) {
         _id: existingOTP._id,
       });
     }
-
+    console.log("Generating new OTP for:", normalizedEmail); // Debugging line
     const otp = generateOTP();
     const hashedOTP = hashOTP(otp);
 
@@ -315,6 +315,7 @@ async function forgotPassword(req, res, next) {
     });
 
     try {
+      console.log("Sending OTP email to:", normalizedEmail, "OTP:", otp); // Debugging line
       await sendOtpEmail(normalizedEmail, otp);
     } catch (error) {
       await OTP.deleteOne({
