@@ -15,6 +15,7 @@ const transporter = nodemailer.createTransport({
 });
 
 async function sendOtpEmail(email, otp) {
+  console.log(`Preparing to send OTP email to ${email} with OTP: ${otp}`); //debugging line
   const mailOptions = {
     from: `"DayBook" <${process.env.SMTP_USER}>`,
     to: email,
@@ -30,7 +31,7 @@ async function sendOtpEmail(email, otp) {
       </div>
     `,
   };
-
+  console.log(`Sending email to ${email} with options:`, mailOptions); //debugging line`
   return await transporter.sendMail(mailOptions);
 }
 
