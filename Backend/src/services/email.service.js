@@ -3,7 +3,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendOtpEmail(email, otp) {
   const { error } = await resend.emails.send({
-    from: "DayBook <onboarding@resend.dev>",
+    from: "DayBook <onboarding@arsh02.me>",
     to: email,
     subject: "Your DayBook OTP",
     text: `Your DayBook verification code is ${otp}. It will expire in 5 minutes.`,
