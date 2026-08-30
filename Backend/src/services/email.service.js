@@ -1,23 +1,9 @@
-const nodemailer = require("nodemailer");
-
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  family: 4,
-  auth: {
-    type: "OAuth2",
-    user: process.env.SMTP_USER,
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
-  },
-});
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendOtpEmail(email, otp) {
-  console.log(`Preparing to send OTP email to ${email} with OTP: ${otp}`); //debugging line
-  const mailOptions = {
-    from: `"DayBook" <${process.env.SMTP_USER}>`,
+  const { error } = await resend.emails.send({
+    from: "DayBook <onboarding@resend.dev>",
     to: email,
     subject: "Your DayBook OTP",
     text: `Your DayBook verification code is ${otp}. It will expire in 5 minutes.`,
@@ -27,14 +13,11 @@ async function sendOtpEmail(email, otp) {
         <p>Your verification code is:</p>
         <h1>${otp}</h1>
         <p>This OTP will expire in 5 minutes.</p>
-        <p>If you did not request this code, you can safely ignore this email.</p>
       </div>
     `,
-  };
-  console.log(`Sending email to ${email} with options:`, mailOptions); //debugging line`
-  return await transporter.sendMail(mailOptions);
+  });
+
+  if (error) throw error;
 }
 
-module.exports = {
-  sendOtpEmail,
-};
+module.exports = { sendOtpEmail };
