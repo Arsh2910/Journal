@@ -47,4 +47,6 @@ const journalSchema = new mongoose.Schema(
 );
 
 journalSchema.index({ user: 1, challenge: 1, dayNumber: 1 }, { unique: true });
-S;
+
+const journalModel = mongoose.model("Journal", journalSchema);
+module.exports = journalModel;
