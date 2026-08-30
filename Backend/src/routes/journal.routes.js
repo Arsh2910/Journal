@@ -16,7 +16,12 @@ const validate = require("../middlewares/validate.middleware");
 const { authUser } = require("../middlewares/auth.middleware");
 
 router.post("/create", validate(journalSchema), authUser, createJournal);
-router.get("/all", validate(journalQuerySchema, "query"), getJournals);
+router.get(
+  "/all",
+  validate(journalQuerySchema, "query"),
+  authUser,
+  getJournals,
+);
 router.get("/:id", authUser, getJournalById);
 router.put("/:id", validate(updateJournalSchema), authUser, updateJournal);
 router.delete("/:id", authUser, deleteJournal);

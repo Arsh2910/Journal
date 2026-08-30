@@ -11,20 +11,40 @@ const {
   resetPasswordSchema,
 } = require("../schemas/auth.schema");
 const { authUser } = require("../middlewares/auth.middleware");
+const {
+  otpSendLimiter,
+  otpVerifyLimiter,
+} = require("../middlewares/rateLimiter.middleware");
 const { googleLogin } = require("../controllers/register.controller");
 const {
   otpSendLimiter,
   otpVerifyLimiter,
 } = require("../middlewares/rateLimiter.middleware");
 router.post("/register", validate(registerSchema), authController.registerUser);
-router.post("/login", authController.loginUser);
+router.post("/login", validate(loginSchema), authController.loginUser);
 router.post("/logout", authUser, authController.logoutUser);
 router.post("/google", validate(googleLoginSchema), authController.googleLogin);
-router.post("/verify-otp", otpVerifyLimiter, authController.verifyOTP);
-router.post("/send-otp", otpSendLimiter, authController.sendOTP);
-router.post("/forgot-password", otpSendLimiter, authController.forgotPassword);
+router.post(
+  "/verify-otp",
+  validate(otpSchema),
+  otpVerifyLimiter,
+  authController.verifyOTP,
+);
+router.post(
+  "/send-otp",
+  validate(emailSchema),
+  otpSendLimiter,
+  authController.sendOTP,
+);
+router.post(
+  "/forgot-password",
+  validate(emailSchema),
+  otpSendLimiter,
+  authController.forgotPassword,
+);
 router.post(
   "/verify-forgot-password-otp",
+  validate(otpSchema),
   otpVerifyLimiter,
   authController.verifyForgotPasswordOTP,
 );

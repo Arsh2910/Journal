@@ -1,37 +1,49 @@
-const mongoose = require("mongoose");
+const journalSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
 
-const journalSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
-    required: true,
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    date: {
+      type: Date,
+      required: true,
+    },
+
+    content: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    mood: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    dayNumber: {
+      type: Number,
+      required: true,
+    },
+
+    challenge: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Challenge",
+      required: true,
+    },
   },
-  title: {
-    type: String,
-    required: true,
+  {
+    timestamps: true,
   },
-  date: {
-    type: Date,
-    required: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
-  mood: {
-    type: String,
-    required: true,
-  },
-  dayNumber: {
-    type: Number,
-    required: true,
-  },
-  challenge: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Challenge",
-    required: true,
-  },
-});
-journalSchema.index({ user: 1, dayNumber: 1 }, { unique: true });
-const journalModel = mongoose.model("journal", journalSchema);
-module.exports = journalModel;
+);
+
+journalSchema.index({ user: 1, challenge: 1, dayNumber: 1 }, { unique: true });
+S;

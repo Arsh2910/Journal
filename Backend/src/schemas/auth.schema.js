@@ -14,13 +14,18 @@ const registerSchema = z.object({
   avatar: z.string().trim().optional(),
 });
 
-const loginSchema = z.object({
-  email: z.string().trim().email("Invalid email address").optional(),
+const loginSchema = z
+  .object({
+    email: z.string().trim().email("Invalid email address").optional(),
 
-  userName: z.string().trim().min(3, "Invalid username").optional(),
+    userName: z.string().trim().min(3, "Invalid username").optional(),
 
-  password: z.string().min(1, "Password is required"),
-});
+    password: z.string().min(1, "Password is required"),
+  })
+  .refine((data) => Boolean(data.email || data.userName), {
+    message: "Email or username is required",
+    path: ["email"],
+  });
 
 const googleLoginSchema = z.object({
   idToken: z.string().min(1, "Google ID token is required"),

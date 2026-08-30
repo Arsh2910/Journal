@@ -60,14 +60,19 @@ async function getTodayNotes(req, res, next) {
 
     const today = normalizeDate(new Date());
 
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
     const notes = await notesModel
       .find({
         user: req.user.id,
         challenge: challenge._id,
-        date: today,
+        date: {
+          $gte: today,
+          $lt: tomorrow,
+        },
       })
       .sort({ createdAt: 1 });
-
     res.status(200).json({
       success: true,
       notes,

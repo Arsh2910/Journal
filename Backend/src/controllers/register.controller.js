@@ -50,31 +50,42 @@ async function registerUser(req, res, next) {
 }
 
 async function loginUser(req, res, next) {
-  const { userName, email, password } = req.body;
   try {
-    const user = await userModel.findOne({
-      $or: [{ userName }, { email }],
-    });
+    const { userName, email, password } = req.body;
+
+    const query = email
+      ? { email: email.toLowerCase().trim() }
+      : { userName: userName.trim() };
+
+    const user = await userModel.findOne(query);
+
     if (!user) {
-      throw new AppError("User does not exist", 404);
+      throw new AppError("Invalid credentials", 401);
+    }
+
+    if (!user.password) {
+      throw new AppError("This account uses Google login", 400);
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
+
     if (!isPasswordValid) {
-      throw new AppError("Invalid password", 404);
+      throw new AppError("Invalid credentials", 401);
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
+
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    res.status(200).json({
-      message: "User Logged in Successfully",
+
+    return res.status(200).json({
+      message: "User logged in successfully",
       id: user._id,
       userName: user.userName,
       email: user.email,
@@ -118,16 +129,36 @@ async function googleLogin(req, res, next) {
   }
 }
 async function logoutUser(req, res, next) {
-  const token = req.cookies.token;
   try {
+    const token = req.cookies.token;
+
     if (!token) {
       throw new AppError("No token found", 400);
     }
-    await tokenBlacklistModel.create({ token });
-    res.clearCookie("token");
-    return res.status(200).json({ message: "User logged out successfully" });
-  } catch (err) {
-    next(err);
+
+    const decoded = jwt.decode(token);
+
+    if (!decoded?.exp) {
+      throw new AppError("Invalid token", 400);
+    }
+
+    await tokenBlacklistModel.create({
+      token,
+      expiresAt: new Date(decoded.exp * 1000),
+    });
+
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    });
+
+    return res.status(200).json({
+      message: "User logged out successfully",
+    });
+  } catch (error) {
+    next(error);
   }
 }
 

@@ -5,10 +5,15 @@ const blacklistSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  expiresAt: {
+    type: Date,
+    required: true,
+  },
 });
 
-const tokenBlacklistModel = mongoose.model(
-  "TokenBlacklist",
-  blacklistSchema,
-);
+blacklistSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+
+const tokenBlacklistModel = mongoose.model("TokenBlacklist", blacklistSchema);
+
 module.exports = tokenBlacklistModel;

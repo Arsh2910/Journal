@@ -19,7 +19,8 @@ router.post("/create", validate(createNoteSchema), authUser, createNote);
 router.get("/today", authUser, getTodayNotes);
 router.patch(
   "/:id",
-  validate(updateNoteSchema, "params"),
+  validate(objectIdSchema, "params"),
+  validate(updateNoteSchema, "body"),
   authUser,
   updateNote,
 );

@@ -9,7 +9,13 @@ async function verifyGoogleToken(token) {
   const payload = ticket.getPayload();
   const googleId = payload["sub"];
   const email = payload["email"];
-  return { email, googleId };
+  const picture = payload["picture"];
+
+  return {
+    email,
+    googleId,
+    avatar: picture,
+  };
 }
 
 module.exports = { verifyGoogleToken };
