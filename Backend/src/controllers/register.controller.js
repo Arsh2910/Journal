@@ -317,7 +317,9 @@ async function forgotPassword(req, res, next) {
     try {
       console.log("Sending OTP email to:", normalizedEmail, "OTP:", otp); // Debugging line
       await sendOtpEmail(normalizedEmail, otp);
+      console.log("OTP email sent successfully to:", normalizedEmail); // Debugging line
     } catch (error) {
+      console.error("Error sending OTP email:", error); // Debugging line
       await OTP.deleteOne({
         _id: otpRecord._id,
       });
