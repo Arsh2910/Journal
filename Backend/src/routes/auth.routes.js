@@ -16,10 +16,7 @@ const {
   otpVerifyLimiter,
 } = require("../middlewares/rateLimiter.middleware");
 const { googleLogin } = require("../controllers/register.controller");
-const {
-  otpSendLimiter,
-  otpVerifyLimiter,
-} = require("../middlewares/rateLimiter.middleware");
+
 router.post("/register", validate(registerSchema), authController.registerUser);
 router.post("/login", validate(loginSchema), authController.loginUser);
 router.post("/logout", authUser, authController.logoutUser);
