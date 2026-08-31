@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const validate = require("../middlewares/validate.middleware");
-const authController = require("../controllers/register.controller");
+const validate = require("../../middlewares/validate.middleware");
+const authController = require("./auth.controller");
 const {
   registerSchema,
   loginSchema,
@@ -9,13 +9,13 @@ const {
   emailSchema,
   otpSchema,
   resetPasswordSchema,
-} = require("../schemas/auth.schema");
-const { authUser } = require("../middlewares/auth.middleware");
+} = require("./auth.schema");
+const { authUser } = require("../../middlewares/auth.middleware");
 const {
   otpSendLimiter,
   otpVerifyLimiter,
-} = require("../middlewares/rateLimiter.middleware");
-const { googleLogin } = require("../controllers/register.controller");
+} = require("../../middlewares/rateLimiter.middleware");
+const { googleLogin } = require("./auth.controller");
 
 router.post("/register", validate(registerSchema), authController.registerUser);
 router.post("/login", validate(loginSchema), authController.loginUser);

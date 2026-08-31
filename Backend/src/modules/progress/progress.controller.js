@@ -1,4 +1,4 @@
-const AppError = require("../utils/appError");
+const AppError = require("../../utils/appError");
 
 const {
   getActiveChallenge,
@@ -8,7 +8,7 @@ const {
 const {
   getCompletedDays,
   getCompletedDayNumbers,
-} = require("../services/progress.service");
+} = require("./progress.service");
 
 async function getChallengeProgress(req, res, next) {
   try {

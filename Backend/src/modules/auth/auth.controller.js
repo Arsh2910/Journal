@@ -1,13 +1,13 @@
-const userModel = require("../models/user.model");
-const { verifyGoogleToken } = require("../services/googleAuth.service");
-const { findOrCreateGoogleUser } = require("../services/auth.service");
-const tokenBlacklistModel = require("../models/blacklist.model");
-const OTP = require("../models/otp.model");
-const { generateOTP, hashOTP } = require("../utils/otp");
-const { sendOtpEmail } = require("../services/email.service");
+const userModel = require("../user/user.model");
+const { verifyGoogleToken } = require("./google/googleAuth.service");
+const { findOrCreateGoogleUser } = require("./auth.service");
+const tokenBlacklistModel = require("./token/blacklist.model");
+const OTP = require("./otp/otp.model");
+const { generateOTP, hashOTP } = require("../../utils/otp");
+const { sendOtpEmail } = require("./email/email.service");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const AppError = require("../utils/appError");
+const AppError = require("../../utils/appError");
 async function registerUser(req, res, next) {
   try {
     const { userName, email, password, avatar } = req.body;

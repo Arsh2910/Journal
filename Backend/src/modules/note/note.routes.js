@@ -7,14 +7,11 @@ const {
   getTodayNotes,
   updateNote,
   deleteNote,
-} = require("../controllers/notes.controller");
-const {
-  createNoteSchema,
-  updateNoteSchema,
-} = require("../schemas/notes.schema");
-const { authUser } = require("../middlewares/auth.middleware");
-const validate = require("../middlewares/validate.middleware");
-const { objectIdSchema } = require("../schemas/common.schema");
+} = require("./note.controller");
+const { createNoteSchema, updateNoteSchema } = require("./note.schema");
+const { authUser } = require("../../middlewares/auth.middleware");
+const validate = require("../../middlewares/validate.middleware");
+const { objectIdSchema } = require("../../shared/schema/common.schema");
 router.post("/create", validate(createNoteSchema), authUser, createNote);
 router.get("/today", authUser, getTodayNotes);
 router.patch(

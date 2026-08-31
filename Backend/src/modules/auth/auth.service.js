@@ -1,5 +1,5 @@
 // auth.service.js
-const User = require("../models/user.model");
+const User = require("../user/user.model");
 
 async function generateUniqueUsername(email) {
   const base = email.split("@")[0].replace(/[^a-zA-Z0-9]/g, "");
@@ -24,7 +24,12 @@ async function findOrCreateGoogleUser({ email, googleId, avatar }) {
   }
 
   const userName = await generateUniqueUsername(email);
-  user = await User.create({ email, googleId, userName, avatar: avatar || "avatar-default" });
+  user = await User.create({
+    email,
+    googleId,
+    userName,
+    avatar: avatar || "avatar-default",
+  });
   return { user, isNew: true };
 }
 

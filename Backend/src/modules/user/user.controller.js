@@ -1,5 +1,5 @@
-const userModel = require("../models/user.model");
-const AppError = require("../utils/appError");
+const userModel = require("./user.model");
+const AppError = require("../../utils/appError");
 
 const ALLOWED_AVATARS = [
   "avatar-default",

@@ -1,7 +1,7 @@
-const challengeModel = require("../models/challenge.model");
-const AppError = require("../utils/appError");
+const challengeModel = require("./challenge.model");
+const AppError = require("../../utils/appError");
 
-const { calculateCurrentDay } = require("../services/challenge.service");
+const { calculateCurrentDay } = require("../../services/challenge.service");
 
 async function createChallenge(req, res, next) {
   try {

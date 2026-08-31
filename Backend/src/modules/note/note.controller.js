@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
-const notesModel = require("../models/notes.model");
-const AppError = require("../utils/appError");
+const notesModel = require("./note.model");
+const AppError = require("../../utils/appError");
 
 const {
   getActiveChallenge,
   calculateCurrentDay,
   normalizeDate,
-} = require("../services/challenge.service");
+} = require("../../services/challenge.service");
 
 async function createNote(req, res, next) {
   try {

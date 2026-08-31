@@ -2,12 +2,12 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const app = express();
-const authRoutes = require("./routes/auth.routes");
-const journalRoutes = require("./routes/journal.routes");
-const challengeRoutes = require("./routes/challenge.routes");
-const noteRoutes = require("./routes/notes.routes");
+const authRoutes = require("./modules/auth/auth.routes");
+const journalRoutes = require("./modules/journal/journal.routes");
+const challengeRoutes = require("./modules/challenge/challenge.routes");
+const noteRoutes = require("./modules/note/note.routes");
 const progressRoutes = require("./routes/progress.routes");
-const userRoutes = require("./routes/user.routes");
+const userRoutes = require("./modules/user/user.routes");
 const { errorMiddleware } = require("./middlewares/error.middleware");
 app.set("trust proxy", 1);
 app.use(

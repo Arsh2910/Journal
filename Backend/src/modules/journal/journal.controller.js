@@ -1,11 +1,11 @@
-const journalModel = require("../models/journal.model");
-const AppError = require("../utils/appError");
+const journalModel = require("./journal.model");
+const AppError = require("../../utils/appError");
 
 const {
   getActiveChallenge,
   calculateCurrentDay,
   validateToday,
-} = require("../services/challenge.service");
+} = require("../../services/challenge.service");
 
 async function createJournal(req, res, next) {
   try {

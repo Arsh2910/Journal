@@ -1,19 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const { createJournal } = require("../controllers/journal.controller");
+const { createJournal } = require("./journal.controller");
 const {
   getJournals,
   getJournalById,
   updateJournal,
   deleteJournal,
-} = require("../controllers/journal.controller");
+} = require("./journal.controller");
 const {
   journalSchema,
   updateJournalSchema,
   journalQuerySchema,
-} = require("../schemas/journal.schema");
-const validate = require("../middlewares/validate.middleware");
-const { authUser } = require("../middlewares/auth.middleware");
+} = require("./journal.schema");
+const validate = require("../../middlewares/validate.middleware");
+const { authUser } = require("../../middlewares/auth.middleware");
 
 router.post("/create", validate(journalSchema), authUser, createJournal);
 router.get(

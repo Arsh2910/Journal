@@ -5,7 +5,7 @@ const router = express.Router();
 const {
   getChallengeProgress,
   getChallengeDayMap,
-} = require("../controllers/progress.controller");
+} = require("../modules/progress/progress.controller");
 
 const { authUser } = require("../middlewares/auth.middleware");
 

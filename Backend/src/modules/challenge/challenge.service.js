@@ -1,4 +1,4 @@
-const challengeModel = require("../models/challenge.model");
+const challengeModel = require("../modules/challenges/challenge.model");
 
 function normalizeDate(date) {
   const d = new Date(date);
