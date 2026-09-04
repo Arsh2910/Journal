@@ -42,7 +42,7 @@ async function getUsers(req, res, next) {
     const [users, total] = await Promise.all([
       userModel
         .find({}, "userName email avatar role createdAt")
-        .sort({ createdAt: -1 })
+        .sort({ _id: -1 })
         .skip(skip)
         .limit(limit)
         .lean(),
