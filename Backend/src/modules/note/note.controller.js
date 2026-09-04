@@ -7,7 +7,7 @@ const {
   getActiveChallenge,
   calculateCurrentDay,
   normalizeDate,
-} = require("../../services/challenge.service");
+} = require("../challenge/challenge.service");
 
 async function createNote(req, res, next) {
   try {

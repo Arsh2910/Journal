@@ -5,7 +5,7 @@ const {
   getActiveChallenge,
   calculateCurrentDay,
   validateToday,
-} = require("../../services/challenge.service");
+} = require("../challenge/challenge.service");
 
 async function createJournal(req, res, next) {
   try {

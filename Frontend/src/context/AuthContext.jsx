@@ -28,6 +28,7 @@ export function AuthProvider({ children }) {
           userName: data.userName,
           email: data.email,
           avatar: data.avatar || "avatar-default",
+          role: data.role || "user",
         });
       } catch (err) {
         setUser(null);
@@ -44,6 +45,7 @@ export function AuthProvider({ children }) {
       userName: data.userName,
       email: data.email,
       avatar: data.avatar || "avatar-default",
+      role: data.role || "user",
     });
     return data;
   }, []);
@@ -54,6 +56,7 @@ export function AuthProvider({ children }) {
       userName: userData.userName,
       email: userData.email,
       avatar: userData.avatar || "avatar-default",
+      role: userData.role || "user",
     });
   }, []);
 
@@ -64,6 +67,7 @@ export function AuthProvider({ children }) {
       userName: data.userName,
       email: data.email,
       avatar: data.avatar || "avatar-default",
+      role: data.role || "user",
     });
     return data;
   }, []);

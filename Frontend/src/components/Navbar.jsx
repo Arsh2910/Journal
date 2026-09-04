@@ -102,6 +102,16 @@ export default function Navbar() {
             >
               Archive
             </NavLink>
+            {user.role === "admin" && (
+              <NavLink
+                to="/admin"
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "active" : ""}`
+                }
+              >
+                Admin
+              </NavLink>
+            )}
           </nav>
         )}
 

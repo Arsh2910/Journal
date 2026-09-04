@@ -31,6 +31,12 @@ const userSchema = new mongoose.Schema({
     default: "avatar-default",
   },
 
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
+
   tokenVersion: {
     type: Number,
     default: 0,

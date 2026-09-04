@@ -27,7 +27,7 @@ async function registerUser(req, res, next) {
       avatar: avatar || "avatar-default",
     });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
@@ -43,6 +43,7 @@ async function registerUser(req, res, next) {
       userName: user.userName,
       email: user.email,
       avatar: user.avatar,
+      role: user.role,
     });
   } catch (error) {
     next(error);
@@ -73,7 +74,7 @@ async function loginUser(req, res, next) {
       throw new AppError("Invalid credentials", 401);
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
@@ -90,6 +91,7 @@ async function loginUser(req, res, next) {
       userName: user.userName,
       email: user.email,
       avatar: user.avatar,
+      role: user.role,
     });
   } catch (error) {
     next(error);
@@ -105,7 +107,7 @@ async function googleLogin(req, res, next) {
       avatar,
     });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
@@ -122,6 +124,7 @@ async function googleLogin(req, res, next) {
       userName: user.userName,
       email: user.email,
       avatar: user.avatar,
+      role: user.role,
       isNewUser: isNew,
     });
   } catch (err) {

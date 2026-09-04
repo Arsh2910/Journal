@@ -1,4 +1,8 @@
 const { Resend } = require("resend");
+const dotenv = require("dotenv");
+dotenv.config({
+  path: "C:\Users\Arsh\Code-NodeJs\BACKEND PROJECTS\Journal\Backend\src\config\.env",
+});
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendOtpEmail(email, otp) {

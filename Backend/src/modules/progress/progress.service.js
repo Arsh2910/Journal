@@ -1,4 +1,4 @@
-const journalModel = require("../journals/journal.model");
+const journalModel = require("../journal/journal.model");
 
 async function getCompletedDays(challengeId) {
   return await journalModel.countDocuments({

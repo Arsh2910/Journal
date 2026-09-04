@@ -62,6 +62,7 @@ async function getCurrentUser(req, res, next) {
       userName: user.userName,
       email: user.email,
       avatar: user.avatar,
+      role: user.role,
     });
   } catch (error) {
     next(error);

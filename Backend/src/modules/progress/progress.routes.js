@@ -5,9 +5,9 @@ const router = express.Router();
 const {
   getChallengeProgress,
   getChallengeDayMap,
-} = require("../modules/progress/progress.controller");
+} = require("./progress.controller");
 
-const { authUser } = require("../middlewares/auth.middleware");
+const { authUser } = require("../../middlewares/auth.middleware");
 
 router.get("/", authUser, getChallengeProgress);
 

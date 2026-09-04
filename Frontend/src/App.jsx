@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 import Navbar from "./components/Navbar";
 
 // Pages
@@ -15,6 +16,7 @@ import Journey        from "./pages/Journey";
 import Archive        from "./pages/Archive";
 import Goals          from "./pages/Goals";
 import Profile        from "./pages/Profile";
+import Admin          from "./pages/Admin";
 
 function AppLayout({ children, showNav = true }) {
   return (
@@ -72,6 +74,12 @@ export default function App() {
               <ProtectedRoute>
                 <AppLayout><Profile /></AppLayout>
               </ProtectedRoute>
+            } />
+
+            <Route path="/admin" element={
+              <AdminRoute>
+                <AppLayout><Admin /></AppLayout>
+              </AdminRoute>
             } />
 
             {/* Fallback */}

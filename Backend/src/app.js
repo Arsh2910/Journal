@@ -6,8 +6,9 @@ const authRoutes = require("./modules/auth/auth.routes");
 const journalRoutes = require("./modules/journal/journal.routes");
 const challengeRoutes = require("./modules/challenge/challenge.routes");
 const noteRoutes = require("./modules/note/note.routes");
-const progressRoutes = require("./routes/progress.routes");
+const progressRoutes = require("./modules/progress/progress.routes");
 const userRoutes = require("./modules/user/user.routes");
+const adminRoutes = require("./modules/admin/admin.routes");
 const { errorMiddleware } = require("./middlewares/error.middleware");
 app.set("trust proxy", 1);
 app.use(
@@ -29,6 +30,7 @@ app.use("/api/challenge", challengeRoutes);
 app.use("/api/notes", noteRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.use(errorMiddleware);
 

@@ -3,7 +3,7 @@ const AppError = require("../../utils/appError");
 const {
   getActiveChallenge,
   calculateCurrentDay,
-} = require("../services/challenge.service");
+} = require("../challenge/challenge.service");
 
 const {
   getCompletedDays,
