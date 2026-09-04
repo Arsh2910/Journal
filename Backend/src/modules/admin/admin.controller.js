@@ -10,19 +10,34 @@ const AppError = require("../../utils/appError");
  */
 async function getStats(req, res, next) {
   try {
-    const [totalUsers, totalJournals, totalNotes, totalChallenges] =
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const [totalUsers, totalJournals, totalNotes, totalChallenges, signupsLast7Days] =
       await Promise.all([
         userModel.countDocuments(),
         journalModel.countDocuments(),
         noteModel.countDocuments(),
         challengeModel.countDocuments(),
+        userModel.countDocuments({ createdAt: { $gte: sevenDaysAgo } })
       ]);
+
+    // Gather DB System Health Stats
+    const mongoose = require("mongoose");
+    const dbStats = mongoose.connection.readyState === 1 ? await mongoose.connection.db.stats() : null;
+    const systemHealth = dbStats ? {
+      dbSizeMB: (dbStats.dataSize / 1024 / 1024).toFixed(2),
+      storageSizeMB: (dbStats.storageSize / 1024 / 1024).toFixed(2),
+      collections: dbStats.collections,
+      indexes: dbStats.indexes,
+      connections: mongoose.connection.base.connections.length,
+    } : null;
 
     res.status(200).json({
       totalUsers,
       totalJournals,
       totalNotes,
       totalChallenges,
+      signupsLast7Days,
+      systemHealth,
     });
   } catch (error) {
     next(error);
@@ -41,7 +56,7 @@ async function getUsers(req, res, next) {
 
     const [users, total] = await Promise.all([
       userModel
-        .find({}, "userName email avatar role createdAt")
+        .find({}, "userName email avatar role createdAt lastLogin")
         .sort({ _id: -1 })
         .skip(skip)
         .limit(limit)

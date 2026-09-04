@@ -74,6 +74,9 @@ async function loginUser(req, res, next) {
       throw new AppError("Invalid credentials", 401);
     }
 
+    user.lastLogin = new Date();
+    await user.save();
+
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });

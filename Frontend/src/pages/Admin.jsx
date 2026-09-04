@@ -158,11 +158,16 @@ export default function Admin() {
 
         {/* Stats Grid */}
         {stats && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             <StatCard
               label="Total Users"
               value={stats.totalUsers}
               accent="var(--color-primary)"
+            />
+            <StatCard
+              label="Recent Signups (7d)"
+              value={stats.signupsLast7Days}
+              accent="var(--color-primary-fixed)"
             />
             <StatCard
               label="Journals"
@@ -175,6 +180,31 @@ export default function Admin() {
               value={stats.totalChallenges}
               accent="var(--color-tertiary)"
             />
+          </div>
+        )}
+
+        {/* System Health Section */}
+        {stats?.systemHealth && (
+          <div className="space-y-4">
+            <p className="stamp-label text-tertiary">System Health (Database)</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <StatCard
+                label="Data Size"
+                value={`${stats.systemHealth.dbSizeMB} MB`}
+              />
+              <StatCard
+                label="Storage Size"
+                value={`${stats.systemHealth.storageSizeMB} MB`}
+              />
+              <StatCard
+                label="Collections"
+                value={stats.systemHealth.collections}
+              />
+              <StatCard
+                label="Active Connections"
+                value={stats.systemHealth.connections}
+              />
+            </div>
           </div>
         )}
 
@@ -206,6 +236,7 @@ export default function Admin() {
                     <th>Email</th>
                     <th>Role</th>
                     <th>Joined</th>
+                    <th>Last Login</th>
                     <th className="text-right">Actions</th>
                   </tr>
                 </thead>
@@ -226,6 +257,9 @@ export default function Admin() {
                       <td className="text-on-surface-variant">
                         {formatDate(u.createdAt)}
                       </td>
+                      <td className="text-on-surface-variant">
+                        {formatDate(u.lastLogin)}
+                      </td>
                       <td className="text-right">
                         {u.role !== "admin" && (
                           <button
@@ -241,7 +275,7 @@ export default function Admin() {
                   {usersData?.users?.length === 0 && (
                     <tr>
                       <td
-                        colSpan={5}
+                        colSpan={6}
                         className="text-center font-serif italic text-on-surface-variant py-8"
                       >
                         No users found.

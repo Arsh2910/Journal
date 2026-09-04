@@ -18,8 +18,9 @@ async function findOrCreateGoogleUser({ email, googleId, avatar }) {
   if (user) {
     if (!user.googleId) {
       user.googleId = googleId;
-      await user.save();
     }
+    user.lastLogin = new Date();
+    await user.save();
     return { user, isNew: false };
   }
 
